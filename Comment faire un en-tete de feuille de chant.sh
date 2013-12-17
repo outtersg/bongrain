@@ -32,4 +32,8 @@ do
 	texte="`echo "$i" | cut -d : -f 2-`"
 	sed -e "s/@texte@/$texte/g" -e "s/@taille@/$taille/g" < texte.svg > /tmp/texte.svg
 	/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f /tmp/texte.svg -D -d 300 -e patron/Pictures/entete.$n.png
+	identify -verbose patron/Pictures/entete.$n.png | grep Geometry: | sed -e 's/[x+]/ /g' | while read bidonavant l h bidonapres
+	do
+		
+	done
 done
