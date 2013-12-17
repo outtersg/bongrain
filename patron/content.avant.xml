@@ -21,6 +21,15 @@
 		<style:style style:name="gr1" style:family="graphic">
 			<style:graphic-properties draw:stroke="solid" svg:stroke-width="0.03cm" svg:stroke-color="#000000" draw:fill="solid" draw:fill-color="#000000" draw:textarea-vertical-align="middle" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.002cm" fo:padding-top="-0.02cm" fo:padding-bottom="-0.00cm" style:run-through="foreground" style:vertical-pos="middle" style:vertical-rel="text" style:horizontal-pos="from-left" style:horizontal-rel="paragraph" draw:wrap-influence-on-position="once-concurrent" style:flow-with-text="false"/>
 		</style:style>
+		<style:style style:name="gr2" style:family="graphic">
+			<style:graphic-properties style:run-through="background" style:wrap="run-through" style:number-wrapped-paragraphs="no-limit" style:vertical-pos="from-top" style:vertical-rel="paragraph" style:horizontal-pos="from-left" style:horizontal-rel="paragraph"/>
+		</style:style>
+		<style:style style:name="gr3" style:family="graphic">
+			<style:graphic-properties draw:stroke="none" svg:stroke-width="0cm" svg:stroke-color="#3465af" draw:marker-start="" draw:marker-start-width="0.199cm" draw:marker-start-center="false" draw:marker-end="" draw:marker-end-width="0.199cm" draw:marker-end-center="false" draw:fill="none" draw:fill-color="#729fcf" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" fo:padding-top="0.125cm" fo:padding-bottom="0.125cm" fo:padding-left="0.25cm" fo:padding-right="0.25cm" draw:shadow="hidden" draw:shadow-offset-x="0.199cm" draw:shadow-offset-y="0.199cm" draw:shadow-color="#808080" draw:color-mode="standard" draw:luminance="0%" draw:contrast="0%" draw:gamma="100%" draw:red="0%" draw:green="0%" draw:blue="0%" fo:clip="rect(0cm, 0cm, 0cm, 0cm)" draw:image-opacity="100%" style:mirror="none" style:run-through="background"/>
+		</style:style>
+		<style:style style:name="gr4" style:family="graphic">
+			<style:graphic-properties draw:stroke="none" svg:stroke-width="0cm" svg:stroke-color="#3465af" draw:marker-start="" draw:marker-start-width="0.199cm" draw:marker-start-center="false" draw:marker-end="" draw:marker-end-width="0.199cm" draw:marker-end-center="false" draw:fill="gradient" draw:fill-color="#000000" draw:fill-gradient-name="Gradient_20_7" draw:opacity-name="Transparency_20_2" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:padding-top="0.125cm" fo:padding-bottom="0.125cm" fo:padding-left="0.25cm" fo:padding-right="0.25cm" draw:shadow="hidden" draw:shadow-offset-x="0.199cm" draw:shadow-offset-y="0.199cm" draw:shadow-color="#808080" style:run-through="background"/>
+		</style:style>
 		<style:style style:name="fr1" style:family="graphic" style:parent-style-name="Graphics">
 			<style:graphic-properties fo:margin-left="0.801cm" fo:margin-right="0.801cm" fo:margin-top="0cm" fo:margin-bottom="0cm" style:wrap="dynamic" style:number-wrapped-paragraphs="no-limit" style:wrap-contour="true" style:wrap-contour-mode="full" style:vertical-pos="from-top" style:vertical-rel="page" style:horizontal-pos="from-left" style:horizontal-rel="page" style:mirror="none" fo:clip="rect(0cm, 0cm, 0cm, 0cm)" draw:luminance="0%" draw:contrast="0%" draw:red="0%" draw:green="0%" draw:blue="0%" draw:gamma="100%" draw:color-inversion="false" draw:image-opacity="100%" draw:color-mode="standard"/>
 		</style:style>
@@ -67,6 +76,19 @@
 				<draw:image xlink:href="Pictures/en-tete.1.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/>
 			</draw:frame>
 			<text:section text:style-name="Sect1" text:name="En-tête">
+				<text:p text:style-name="P1">
+					<draw:g text:anchor-type="paragraph" draw:z-index="28" draw:style-name="gr2">
+						<draw:frame draw:style-name="gr3" draw:text-style-name="P8" svg:width="18.56cm" svg:height="5.573cm" svg:x="0.019cm" svg:y="0cm">
+							<draw:image xlink:href="Pictures/gal-1583269.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad">
+								<text:p/>
+							</draw:image>
+						</draw:frame>
+						<draw:custom-shape draw:style-name="gr4" draw:text-style-name="P8" svg:width="18.601cm" svg:height="2.758cm" svg:x="0cm" svg:y="2.833cm">
+							<text:p/>
+							<draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:mirror-horizontal="false" draw:mirror-vertical="false" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
+						</draw:custom-shape>
+					</draw:g>
+				</text:p>
 				<text:p text:style-name="P1">
 					<text:span>Venez, adorons-Le&#x202f;!</text:span>
 				</text:p>
