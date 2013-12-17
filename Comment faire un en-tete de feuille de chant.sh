@@ -25,7 +25,7 @@ Ajouter 0,02 cm (1/5 de mm) de part et d'autre pour être sûr qu'on n'a pas 1/2
 Mentions écrites
 
 n=0
-for i in "20:Venez, adorons-Le\&#x202f;"\! "16:Chants pour" "16:l'Adoration Eucharistique" "14:paroisses de Montrouge"
+for i in "20:Veillez et priez" "16:Chants pour" "16:l'Adoration Eucharistique" "12:paroisses de Montrouge" #"20:Venez, adorons-Le\&#x202f;"\!
 do
 	n=`expr $n + 1`
 	taille="`echo "$i" | cut -d : -f 1`"
