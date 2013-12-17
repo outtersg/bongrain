@@ -1,0 +1,49 @@
+#!/bin/sh
+
+set -x
+debroussaille()
+{
+	sed -e "s/[-'\"() ,] */ /g" | uconv -f utf-8 -x 'Latin-ASCII' | tr '[A-Z]' '[a-z]' | sed -e 's/^ *//' -e 's/ *$//'
+}
+
+TMP=/tmp/temp.place.$$
+mkdir $TMP
+
+fais()
+{
+	titre="`head -1 < "$1" | debroussaille`"
+	f="$titre.txt"
+	if [ -e "$f" ]
+	then
+		n=0
+		while [ -e "variantes/$titre.$n" ]
+		do
+			n=`expr "$n" + 1`
+		done
+		f="variantes/$titre.$n"
+	fi
+	sed -e 's/[  ]*\([:!?;.]\)/\1/g' < "$1" > "$f"
+}
+
+if [ $# -gt 0 ]
+then
+	for i in "$@"
+	do
+		fais "$i"
+	done
+else
+	awk '
+BEGIN { n = 0; }
+/^> / { ++n; f = "'$TMP'/chant."n ; print substr($0, 3) > f ; prems = 1; next; }
+      { if(FNR == 1) { ++n; f = "'$TMP'/chant."n ; print > f ; prems = 1; next; } }
+/^$/ { next; }
+/^[R0-9][.]/ { print "" > f; prems = 0; }
+{ if(prems) print "" > f; print > f; prems = 0; }
+'
+	for i in $TMP/*
+	do
+		fais "$i"
+	done
+fi
+
+rm -Rf $TMP
