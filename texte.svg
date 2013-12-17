@@ -21,7 +21,7 @@
             <feBlend result="mix1" in="blurOut" in2="blurOut" mode="normal" />
             <feBlend result="mix2" in="mix1" in2="blurOut" mode="normal" />
             <feBlend result="mix3" in="mix2" in2="blurOut" mode="normal" />
-            <feBlend in="SourceGraphic" in2="mix3" mode="normal" />
+            <feBlend in="SourceGraphic" in2="mix2" mode="normal" /> <!-- On peut choisir mix1, mix2 ou mix3 selon le degré de mascara que l'on souhaite. -->
         </filter>
     </defs>
     <g stroke-width="5">
