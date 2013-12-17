@@ -57,7 +57,7 @@
 		</style:style>
 		<style:style style:name="P4" style:family="paragraph">
 			<style:paragraph-properties fo:text-align="end"/>
-			<style:text-properties style:font-name="Lato" fo:font-size="6pt" fo:font-style="italic"/>
+			<style:text-properties style:font-name="Lato" fo:font-size="6pt" fo:font-style="italic" fo:color="#ffffff"/>
 		</style:style>
 	</office:automatic-styles>
 	<office:body>
@@ -87,6 +87,7 @@
 						</draw:custom-shape>
 					</draw:g>
 				</text:p>
+				<!--
 				<text:p text:style-name="P1">
 					<text:span>Venez, adorons-Le&#x202f;!</text:span>
 				</text:p>
@@ -97,6 +98,17 @@
 				<text:p text:style-name="P3">
 					<text:span>Paroisses de Montrouge</text:span>
 				</text:p>
+				-->
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4"/>
 				<text:p text:style-name="P4"/>
 				<text:p text:style-name="P4"/>
 				<text:p text:style-name="P4"/>
