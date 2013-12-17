@@ -1,0 +1,6 @@
+# Taille de police <espace> x en cm <espace> y <espace> texte
+# 20 2 1 Venez, adorons-Le\&#x202f;
+20 2.3 2 Veillez et priez
+16 1.8 3 Chants pour
+16 2 3.6 l'Adoration Eucharistique
+12 2 4.5 paroisses de Montrouge
