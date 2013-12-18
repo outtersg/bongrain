@@ -1,6 +1,5 @@
 #!/bin/sh
 
-set -x
 debroussaille()
 {
 	sed -e "s/[-'\"() ,] */ /g" | uconv -f utf-8 -x 'Latin-ASCII' | tr '[A-Z]' '[a-z]' | sed -e 's/^ *//' -e 's/ *$//'
