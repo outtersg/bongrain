@@ -114,7 +114,7 @@
 				<text:p text:style-name="P4"/>
 				<text:p text:style-name="P4"/>
 				<text:p text:style-name="P4">
-					<text:span>Merci de bien vouloir laisser cette feuille sur place</text:span>
+					<text:span>Merci de bien vouloir laisser cette feuille sur place&#x00a0;&#x00a0;</text:span>
 				</text:p>
 				<text:p text:style-name="P4"/>
 			</text:section>
