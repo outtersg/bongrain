@@ -1,0 +1,134 @@
+#!/bin/sh
+# Exemple pour une feuille "permanente":
+# for t in 10 12 ; do ( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds -o /tmp/f$t.odt --vers tdm.201401 -t $t *.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/f$t.odt && scp /tmp/f$t.pdf l:/tmp/tmp/f$t.pdf ) ; done
+# Pour une feuille d'une soirée:
+# for t in 10 12 ; do ( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds -m simple -o /tmp/feuille$t.odt -t $t chant1.txt chant2.txt chantn.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/feuille$t.odt && scp /tmp/feuille$t.pdf l:/tmp/tmp/feuille$t.pdf ) ; done
+
+PATH=/home/gui/bin:/Users/gui/bin:$PATH
+
+# Tout sur une ligne, ou bien couplets présentés comme il se doit?
+if false
+then
+	prefiltre=maj
+else
+	prefiltre=tasse
+fi
+
+maj()
+{
+	# http://userguide.icu-project.org/transforms/general, cf. Function Calls.
+	uconv -f utf-8 -t utf-8 -x '^(.)(.*)>&upper($1)$2;'
+}
+
+tasse()
+{
+	awk '/^$/{print mem;print;mem="";next}END{print mem}{if(mem)mem=mem"<text:span text:style-name=\"Filigrane\">/</text:span>&#x200b;";mem=mem$0}' #| sed -e 's#[.!?;:, ]* / # / #g'
+}
+
+espace()
+{
+	# À FAIRE: ajouter les guillemets à la française.
+	insec="`echo c2a0 | HexToAsc`"
+	sed -E \
+		-e 's/ *$//' \
+		-e "s/( |$insec)*"'([!;:?])/\&#x202f;\2/g' \
+		-e "s/(’|'|´)/\&#x2019;/g"
+	# On n'utilise pas le 00a0 devant les : bien que la typographie française le préconise (aux dernières nouvelles que j'avais dénichées sur internet): moi je trouve ça moche.
+}
+
+numero()
+{
+	# Constitué grâce à http://forum.ubuntu-fr.org/viewtopic.php?id=996191
+	case "$1" in
+		?) nAff="&#x202f;$1&#x202f;" ;;
+		*) nAff="$1" ;;
+	esac
+	printf "<draw:frame svg:y=\"-`LC_ALL=C awk "BEGIN{print $taillePolice / 20}"`cm\" text:anchor-type=\"as-char\" draw:z-index=\"1\" draw:style-name=\"gr1\"><draw:text-box draw:corner-radius=\"`LC_ALL=C awk "BEGIN{print $taillePolice / 40}"`cm\"><text:p><text:span text:style-name=\"TitreContenu\"><text:s/>$nAff<text:s/></text:span></text:p></draw:text-box></draw:frame><text:s text:c=\"2\"/>" 
+}
+
+numeroSimple()
+{
+	printf "$1. "
+}
+
+imagesEnTete()
+{
+	n=0
+	cat patronbis/en-tetes.txt | grep -v '^#' | while read taille x y texte
+	do
+		n=`expr $n + 1`
+		image="Pictures/en-tete.$n.png"
+		identify -verbose "patron/$image" | grep Geometry: | sed -e 's/[x+]/ /g' | while read bidonavant l h bidonapres
+		do
+			l="`expr $l \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
+			h="`expr $h \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
+			echo '<draw:frame draw:style-name="fr1" draw:name="'"$image"'" text:anchor-type="page" text:anchor-page-number="1" svg:x="'"$x"'cm" svg:y="'"$y"'cm" svg:width="'"$l"'cm" svg:height="'"$h"'cm" draw:z-index="27"><draw:image xlink:href="'"$image"'" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>';
+		done
+	done | tr -d '\012'
+}
+
+> /tmp/tdm
+> /tmp/params
+sortie=/tmp/tmp/f.odt
+dest=
+modele=complet
+taillePolice=8
+while [ $# -gt 0 ]
+do
+	case "$1" in
+		-o) shift ; sortie="$1" ;;
+		--de) shift ; cat "$1" > /tmp/tdm ;; # Si l'on reprend une ancienne table des matières (pour ajouter des numéros de chants à la fin plutôt que de repartir de 1).
+		--vers) shift ; dest="$1" ;; # Enregistrement de la table des matières.
+		-m) shift ; modele="$1" ;; # Modèle à utiliser.
+		-t) shift ; taillePolice="$1" ;;
+		*) echo "$1" >> /tmp/params ;;
+	esac
+	shift
+done
+
+
+avant=patronbis/content.avant.$modele.xml
+
+n="`sort -n < /tmp/tdm | tail -1 | cut -d ' ' -f 1`"
+[ -z "$n" ] && n=0
+
+cat /tmp/params | while read i
+do
+	cetN="`grep "^[0-9]* $i\( \|$\)" < /tmp/tdm | head -1 | cut -d ' ' -f 1`"
+	[ -z "$cetN" ] && n=`expr $n + 1` && cetN="$n"
+	echo "$cetN $i" >> /tmp/tdm
+done
+
+remplace()
+{
+	sed -e "s|@imagesEnTete@|`imagesEnTete`|" -e "s|@taillePolice@|$taillePolice|g" -e "s|@taillePolice120@|`expr "$taillePolice" \* 120 | sed -e 's/\(..\)$/.\1/'`|g"
+}
+	
+(
+	remplace < "$avant"
+	sort -n < /tmp/tdm | while read cetN i indications
+	do
+		indications="`echo "$indications" | tr '[' '\012' | grep "^$taillePolice]" | sed -e 's/[^]]*]//'`"
+[ -z "$indications" ] || ( echo "$indications" >&2 && exit 1 )
+		( numero $cetN ; espace < "$i" ) | $prefiltre | awk '
+			function gererIndications() { while(indications && !prochaineIndication) {  } }
+		 	function aff(dernier) { if(mem) { sub(/@@@/, dernier ? " fin" : "", mem); print mem; mem = ""; } }
+		 	BEGIN { ORS="\n"; indications="'"$indications"'"; gererIndications(); }
+			/^$/ { if(avant) mem = mem"</text:p>"; avant = 0; apresvide = 1; next; }
+			END { if(avant) mem = mem"</text:p>"; aff(1); avant = 0; }
+			{ if(FNR == 1) { aff(1); mem = mem"<text:h text:style-name=\"Titre\" text:outline-level=\"5\">"$0"</text:h>"; apresvide = 1; next; } }
+			{ avant = 1; }
+			/^R\. / { aff(); mem = mem"<text:p text:style-name=\"Refrain@@@\">"$0; apresvide = 0; next; }
+			{ if(apresvide) { aff(); mem = mem"<text:p text:style-name=\"Couplet@@@\">"$0; apresvide = 0; next; } }
+			{ mem = mem"<text:line-break/>"$0; }
+		'
+	done 
+	cat patronbis/content.apres.xml
+) > patron/content.xml
+
+remplace < patronbis/styles.xml > patron/styles.xml
+
+( cd patron && rm -f "$sortie" .bak.* */.bak.* && 7za a -tzip "$sortie" . ) > /dev/null 2>&1
+echo http://outters.eu/gui/tmp/f.odt
+
+[ -z "$dest" ] || cat /tmp/tdm > "$dest"
