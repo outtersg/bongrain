@@ -32,3 +32,8 @@ do
 	f="Pictures/en-tete.$n.png"
 	/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f /tmp/texte.svg -D -d 300 -e "patron/$f"
 done
+
+Générer le document
+
+( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds *.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/tmp
+/f.odt && scp /tmp/f.pdf l:/tmp/tmp/f2.pdf )
