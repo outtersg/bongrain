@@ -25,15 +25,10 @@ Ajouter 0,02 cm (1/5 de mm) de part et d'autre pour être sûr qu'on n'a pas 1/2
 Mentions écrites
 
 n=0
-for i in "20:Veillez et priez" "16:Chants pour" "16:l'Adoration Eucharistique" "12:paroisses de Montrouge" #"20:Venez, adorons-Le\&#x202f;"\!
+cat patronbis/en-tetes.txt | grep -v '^#' | while read taille x y texte
 do
 	n=`expr $n + 1`
-	taille="`echo "$i" | cut -d : -f 1`"
-	texte="`echo "$i" | cut -d : -f 2-`"
 	sed -e "s/@texte@/$texte/g" -e "s/@taille@/$taille/g" < texte.svg > /tmp/texte.svg
-	/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f /tmp/texte.svg -D -d 300 -e patron/Pictures/entete.$n.png
-	identify -verbose patron/Pictures/entete.$n.png | grep Geometry: | sed -e 's/[x+]/ /g' | while read bidonavant l h bidonapres
-	do
-		
-	done
+	f="Pictures/en-tete.$n.png"
+	/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f /tmp/texte.svg -D -d 300 -e "patron/$f"
 done
