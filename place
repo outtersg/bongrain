@@ -33,7 +33,7 @@ then
 else
 	awk '
 BEGIN { n = 0; }
-/^> / { ++n; f = "'$TMP'/chant."n ; print substr($0, 3) > f ; prems = 1; next; }
+/^> / { ++n; if(f) close(f); f = "'$TMP'/chant."n ; print substr($0, 3) > f ; prems = 1; next; }
       { if(FNR == 1) { ++n; f = "'$TMP'/chant."n ; print > f ; prems = 1; next; } }
 /^$/ { next; }
 /^[R0-9][.]/ { print "" > f; prems = 0; }
