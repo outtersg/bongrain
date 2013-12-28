@@ -2,7 +2,7 @@
 
 debroussaille()
 {
-	sed -e "s/[-'\"() ,] */ /g" -e 's/´/ /g'| uconv -f utf-8 -x 'Latin-ASCII' | tr '[A-Z]' '[a-z]' | sed -e 's/^ *//' -e 's/ *$//'
+	sed -e "s/[-'\"() ,] */ /g" -e 's/´/ /g' -e 's/’/ /g' | uconv -f utf-8 -x 'Latin-ASCII' | tr '[A-Z]' '[a-z]' | sed -e 's/^ *//' -e 's/ *$//'
 }
 
 TMP=/tmp/temp.place.$$
