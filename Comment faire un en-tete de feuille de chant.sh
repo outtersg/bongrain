@@ -35,5 +35,5 @@ done
 
 Générer le document
 
-( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds *.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/tmp
-/f.odt && scp /tmp/f.pdf l:/tmp/tmp/f2.pdf )
+( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds *.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/tmp/f.odt && scp /tmp/f.pdf l:/tmp/tmp/f2.pdf )
+# Pour repartir de zéro dans la numérotation: ajouter un rm -f tdm avant le ponds.
