@@ -17,3 +17,6 @@ convert IMG_2666_corrigee.png -crop 2750x750+0+143 +repage IMG_2666_bande.png
 # http://stackoverflow.com/questions/718314/rounding-corners-of-pictures-with-imagemagick
 convert -size 2750x750 xc:none -draw 'roundrectangle 0,0,2750,2000,75,75' /tmp/masque.png
 convert IMG_2666_bande.png -matte /tmp/masque.png -compose DstIn -composite IMG_2666_bande_coins.png
+# Le dégradé est trop abrupt:
+#convert -size 2750x750 xc: -channel RGBA -alpha set -sparse-color Barycentric '0,449.5 white   0,%[fx:h-.5] rgba(1,1,1,0)' /tmp
+convert -size 2750x100 gradient:white-none -crop 2750x750+0+650 +repage /tmp/gradient.png
