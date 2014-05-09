@@ -73,7 +73,7 @@
 			<text:section text:style-name="Sect1" text:name="En-tête">
 				<text:p text:style-name="P1">
 					<draw:g text:anchor-type="paragraph" draw:z-index="28" draw:style-name="gr2">
-						<draw:frame draw:style-name="gr3" draw:text-style-name="P8" svg:width="18.56cm" svg:height="5.062cm" svg:x="0.019cm" svg:y="0cm">
+						<draw:frame draw:style-name="gr3" draw:text-style-name="P8" svg:width="18.56cm" svg:height="5.736cm" svg:x="0.019cm" svg:y="0cm">
 							<draw:image xlink:href="Pictures/IMG_2666_final.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad">
 								<text:p/>
 							</draw:image>
