@@ -12,16 +12,18 @@
 		<style:font-face style:name="Mangal" svg:font-family="Mangal" style:font-family-generic="system" style:font-pitch="variable"/>
 	</office:font-face-decls>
 	<office:styles>
+		<draw:gradient draw:name="Gradient_20_7" draw:display-name="Gradient 7" draw:style="linear" draw:start-color="#ffffff" draw:end-color="#ffffff" draw:start-intensity="100%" draw:end-intensity="100%" draw:angle="0" draw:border="0%"/>
+		<draw:opacity draw:name="Transparency_20_2" draw:display-name="Transparency 2" draw:style="linear" draw:start="100%" draw:end="0%" draw:angle="1800" draw:border="0%"/>
 		<style:default-style style:family="graphic">
 			<style:graphic-properties svg:stroke-color="#808080" draw:fill-color="#cfe7f5" fo:wrap-option="no-wrap" draw:shadow-offset-x="0.3cm" draw:shadow-offset-y="0.3cm" draw:start-line-spacing-horizontal="0.283cm" draw:start-line-spacing-vertical="0.283cm" draw:end-line-spacing-horizontal="0.283cm" draw:end-line-spacing-vertical="0.283cm" style:flow-with-text="true"/>
 			<style:paragraph-properties style:text-autospace="ideograph-alpha" style:line-break="strict" style:writing-mode="lr-tb" style:font-independent-line-spacing="false">
 				<style:tab-stops/>
 			</style:paragraph-properties>
-			<style:text-properties style:use-window-font-color="true" fo:font-size="12pt" fo:language="fr" fo:country="FR" style:font-size-asian="10.5pt" style:language-asian="zh" style:country-asian="CN" style:font-size-complex="12pt" style:language-complex="hi" style:country-complex="IN"/>
+			<style:text-properties style:use-window-font-color="true" fo:font-size="12pt" fo:language="fr" fo:country="FR" style:language-asian="zh" style:country-asian="CN" style:language-complex="hi" style:country-complex="IN"/>
 		</style:default-style>
 		<style:default-style style:family="paragraph">
 			<style:paragraph-properties fo:hyphenation-ladder-count="no-limit" style:text-autospace="ideograph-alpha" style:punctuation-wrap="hanging" style:line-break="strict" style:tab-stop-distance="1.251cm" style:writing-mode="page"/>
-			<style:text-properties style:use-window-font-color="true" style:font-name="Times New Roman" fo:font-size="12pt" fo:language="fr" fo:country="FR" style:font-name-asian="Arial Unicode MS" style:font-size-asian="10.5pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Mangal" style:font-size-complex="12pt" style:language-complex="hi" style:country-complex="IN" fo:hyphenate="false" fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+			<style:text-properties style:use-window-font-color="true" style:font-name="Times New Roman" fo:font-size="12pt" fo:language="fr" fo:country="FR" style:language-asian="zh" style:country-asian="CN" style:language-complex="hi" style:country-complex="IN" fo:hyphenate="false" fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
 		</style:default-style>
 		<style:default-style style:family="table">
 			<style:table-properties table:border-model="collapsing"/>
@@ -32,49 +34,46 @@
 		<style:style style:name="Standard" style:family="paragraph" style:class="text"/>
 		<!-- Étrange… Si ce Titre est déclaré après le Heading, ou si son display-name est à "Titre", le text-indent n'est plus pris en compte. -->
 		<style:style style:name="Titre" style:display-name="Titre chant" style:family="paragraph" style:parent-style-name="Couplet" style:next-style-name="Couplet" style:default-outline-level="5" style:class="text">
-			<style:text-properties fo:font-size="120%" fo:font-weight="bold" style:font-size-asian="120%" style:font-weight-asian="bold" style:font-size-complex="120%" style:font-weight-complex="bold"/>
+			<style:text-properties fo:font-size="120%" fo:font-weight="bold"/>
 		</style:style>
 		<style:style style:name="Heading" style:family="paragraph" style:parent-style-name="Standard" style:next-style-name="Text_20_body" style:class="text">
 			<style:paragraph-properties fo:margin-top="0.423cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" fo:keep-with-next="always"/>
-			<style:text-properties style:font-name="Arial" fo:font-size="14pt" style:font-name-asian="Arial Unicode MS" style:font-size-asian="14pt" style:font-name-complex="Mangal" style:font-size-complex="14pt"/>
+			<style:text-properties style:font-name="Arial" fo:font-size="14pt"/>
 		</style:style>
 		<style:style style:name="Text_20_body" style:display-name="Text body" style:family="paragraph" style:parent-style-name="Standard" style:class="text">
 			<style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false"/>
-			<style:text-properties style:font-name="Gentium Book Basic" fo:font-size="10pt" style:font-size-asian="10.5pt"/>
+			<style:text-properties style:font-name="Gentium Book Basic" fo:font-size="10pt"/>
 		</style:style>
 		<style:style style:name="Couplet" style:family="paragraph" style:parent-style-name="Standard" style:class="text">
 			<style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" fo:keep-together="always" fo:keep-with-next="always"/>
-			<style:text-properties style:font-name="Lato" fo:font-size="8pt"/>
+			<style:text-properties style:font-name="Lato" fo:font-size="10pt"/>
 		</style:style>
 		<style:style style:name="Couplet fin" style:family="paragraph" style:parent-style-name="Couplet" style:class="text">
 			<style:paragraph-properties fo:keep-with-next="auto"/>
 		</style:style>
-		<style:style style:name="List" style:family="paragraph" style:parent-style-name="Text_20_body" style:class="list">
-			<style:text-properties style:font-size-asian="12pt" style:font-name-complex="Mangal1"/>
-		</style:style>
+		<style:style style:name="List" style:family="paragraph" style:parent-style-name="Text_20_body" style:class="list"/>
 		<style:style style:name="Caption" style:family="paragraph" style:parent-style-name="Standard" style:class="extra">
 			<style:paragraph-properties fo:margin-top="0.212cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" text:number-lines="false" text:line-number="0"/>
-			<style:text-properties fo:font-size="12pt" fo:font-style="italic" style:font-size-asian="12pt" style:font-style-asian="italic" style:font-name-complex="Mangal1" style:font-size-complex="12pt" style:font-style-complex="italic"/>
+			<style:text-properties fo:font-size="12pt" fo:font-style="italic"/>
 		</style:style>
 		<style:style style:name="Index" style:family="paragraph" style:parent-style-name="Standard" style:class="index">
 			<style:paragraph-properties text:number-lines="false" text:line-number="0"/>
-			<style:text-properties style:font-size-asian="12pt" style:font-name-complex="Mangal1"/>
 		</style:style>
 		<style:style style:name="Preformatted_20_Text" style:display-name="Preformatted Text" style:family="paragraph" style:parent-style-name="Standard" style:class="html">
 			<style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" style:contextual-spacing="false"/>
-			<style:text-properties style:font-name="Gentium Basic" fo:font-size="10pt" style:font-name-asian="Courier New" style:font-size-asian="10pt" style:font-name-complex="Courier New" style:font-size-complex="10pt"/>
+			<style:text-properties style:font-name="Gentium Basic" fo:font-size="10pt"/>
 		</style:style>
 		<style:style style:name="Heading_20_1" style:display-name="Heading 1" style:family="paragraph" style:parent-style-name="Heading" style:next-style-name="Text_20_body" style:default-outline-level="1" style:class="text">
-			<style:text-properties fo:font-size="115%" fo:font-weight="bold" style:font-size-asian="115%" style:font-weight-asian="bold" style:font-size-complex="115%" style:font-weight-complex="bold"/>
+			<style:text-properties fo:font-size="115%" fo:font-weight="bold"/>
 		</style:style>
 		<style:style style:name="Heading_20_3" style:display-name="Heading 3" style:family="paragraph" style:parent-style-name="Heading" style:next-style-name="Text_20_body" style:default-outline-level="3" style:class="text">
-			<style:text-properties fo:font-size="14pt" fo:font-weight="bold" style:font-size-asian="14pt" style:font-weight-asian="bold" style:font-size-complex="14pt" style:font-weight-complex="bold"/>
+			<style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
 		</style:style>
 		<style:style style:name="Heading_20_5" style:display-name="Heading 5" style:family="paragraph" style:parent-style-name="Text_20_body" style:next-style-name="Text_20_body" style:default-outline-level="5" style:class="text">
-			<style:text-properties fo:font-size="120%" fo:font-weight="bold" style:font-size-asian="120%" style:font-weight-asian="bold" style:font-size-complex="120%" style:font-weight-complex="bold"/>
+			<style:text-properties fo:font-size="120%" fo:font-weight="bold"/>
 		</style:style>
 		<style:style style:name="Refrain" style:family="paragraph" style:parent-style-name="Couplet" style:next-style-name="Couplet" style:class="text">
-			<style:text-properties fo:font-weight="bold" style:font-size-asian="10.5pt"/>
+			<style:text-properties fo:font-weight="bold"/>
 		</style:style>
 		<style:style style:name="Refrain fin" style:family="paragraph" style:parent-style-name="Refrain" style:next-style-name="Couplet" style:class="text">
 			<style:paragraph-properties fo:keep-with-next="auto"/>
@@ -143,10 +142,8 @@
 	<office:automatic-styles>
 		<style:page-layout style:name="Mpm1">
 			<style:page-layout-properties fo:page-width="21.001cm" fo:page-height="29.7cm" style:num-format="1" style:print-orientation="portrait" fo:margin-top="1.199cm" fo:margin-bottom="1.199cm" fo:margin-left="1.199cm" fo:margin-right="1.199cm" style:shadow="none" style:writing-mode="lr-tb" style:footnote-max-height="0cm">
-				<style:columns fo:column-count="2" fo:column-gap="0.3cm">
+				<style:columns fo:column-count="1" fo:column-gap="0cm">
 					<style:column-sep style:width="0.009cm" style:color="#000000" style:height="100%" style:style="solid"/>
-					<style:column style:rel-width="32767*" fo:start-indent="0cm" fo:end-indent="0.15cm"/>
-					<style:column style:rel-width="32768*" fo:start-indent="0.15cm" fo:end-indent="0cm"/>
 				</style:columns>
 				<style:footnote-sep style:width="0.018cm" style:distance-before-sep="0.101cm" style:distance-after-sep="0.101cm" style:line-style="solid" style:adjustment="left" style:rel-width="25%" style:color="#000000"/>
 			</style:page-layout-properties>
