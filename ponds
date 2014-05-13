@@ -95,8 +95,7 @@ n="`sort -n < /tmp/tdm | tail -1 | cut -d ' ' -f 1`"
 cat /tmp/params | while read i
 do
 	cetN="`grep "^[0-9]* $i\( \|$\)" < /tmp/tdm | head -1 | cut -d ' ' -f 1`"
-	[ -z "$cetN" ] && n=`expr $n + 1` && cetN="$n"
-	echo "$cetN $i" >> /tmp/tdm
+	[ -z "$cetN" ] && n=`expr $n + 1` && cetN="$n" && echo "$cetN $i" >> /tmp/tdm || true
 done
 
 remplace()
@@ -109,17 +108,17 @@ remplace()
 	sort -n < /tmp/tdm | while read cetN i indications
 	do
 		indications="`echo "$indications" | tr '[' '\012' | grep "^$taillePolice]" | sed -e 's/[^]]*]//'`"
-[ -z "$indications" ] || ( echo "$indications" >&2 && exit 1 )
 		( numero $cetN ; espace < "$i" ) | $prefiltre | awk '
-			function gererIndications() { while(indications && !prochaineIndication) {  } }
+			function gererIndications(numPara) { while(numIndication >= 1) { indication = indications[numIndication]; --numIndication; if(match(/"…"$/, indication)) { if(indication == numPara"…") pointilles = 1; break; } } print "coucou "numIndication" -> "pointilles; }
+			function finirPara() { if(avant) mem = mem"</text:p>"; avant = 0; if(pointilles) mem = mem"<text:p text:style-name=\"Pointilles\">…</text:span>"; pointilles = 0; }
 		 	function aff(dernier) { if(mem) { sub(/@@@/, dernier ? " fin" : "", mem); print mem; mem = ""; } }
-		 	BEGIN { ORS="\n"; indications="'"$indications"'"; gererIndications(); }
-			/^$/ { if(avant) mem = mem"</text:p>"; avant = 0; apresvide = 1; next; }
-			END { if(avant) mem = mem"</text:p>"; aff(1); avant = 0; }
+		 	BEGIN { ORS="\n"; numIndication = split("'"$indications"'", indications, /  */); gererIndications(-1); }
+			/^$/ { finirPara(); apresvide = 1; next; }
+			END { finirPara(); aff(1); }
 			{ if(FNR == 1) { aff(1); mem = mem"<text:h text:style-name=\"Titre\" text:outline-level=\"5\">"$0"</text:h>"; apresvide = 1; next; } }
 			{ avant = 1; }
-			/^R\. / { aff(); mem = mem"<text:p text:style-name=\"Refrain@@@\">"$0; apresvide = 0; next; }
-			{ if(apresvide) { aff(); mem = mem"<text:p text:style-name=\"Couplet@@@\">"$0; apresvide = 0; next; } }
+			/^R\. / { aff(); gererIndications("R"); mem = mem"<text:p text:style-name=\"Refrain@@@\">"$0; apresvide = 0; next; }
+			{ if(apresvide) { aff(); gererIndications(substr($0, 1, index($0, "."))); mem = mem"<text:p text:style-name=\"Couplet@@@\">"$0; apresvide = 0; next; } }
 			{ mem = mem"<text:line-break/>"$0; }
 		'
 	done 
