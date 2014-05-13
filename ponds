@@ -109,16 +109,36 @@ remplace()
 	do
 		indications="`echo "$indications" | tr '[' '\012' | grep "^$taillePolice]" | sed -e 's/[^]]*]//'`"
 		( numero $cetN ; espace < "$i" ) | $prefiltre | awk '
-			function gererIndications(numPara) { while(numIndication >= 1) { indication = indications[numIndication]; --numIndication; if(match(/"…"$/, indication)) { if(indication == numPara"…") pointilles = 1; break; } } print "coucou "numIndication" -> "pointilles; }
-			function finirPara() { if(avant) mem = mem"</text:p>"; avant = 0; if(pointilles) mem = mem"<text:p text:style-name=\"Pointilles\">…</text:span>"; pointilles = 0; }
+			function gererIndications(numPara)
+			{
+				while(numIndication >= 1)
+				{
+					indication = indications[numIndication];
+					if(indication == "v")
+						couplet = " tassé";
+					if(match(indication, /…$/))
+					{
+						if(indication == numPara"…")
+						{
+							pointilles = 1;
+							couplet = "";
+						}
+						else
+							return;
+					}
+					--numIndication;
+				}
+			}
+			function finirPara() { if(avant) mem = mem"</text:p>"; avant = 0; if(pointilles) mem = mem"<text:p text:style-name=\"Pointilles\">…</text:p>"; pointilles = 0; }
 		 	function aff(dernier) { if(mem) { sub(/@@@/, dernier ? " fin" : "", mem); print mem; mem = ""; } }
+			
 		 	BEGIN { ORS="\n"; numIndication = split("'"$indications"'", indications, /  */); gererIndications(-1); }
 			/^$/ { finirPara(); apresvide = 1; next; }
 			END { finirPara(); aff(1); }
 			{ if(FNR == 1) { aff(1); mem = mem"<text:h text:style-name=\"Titre\" text:outline-level=\"5\">"$0"</text:h>"; apresvide = 1; next; } }
 			{ avant = 1; }
 			/^R\. / { aff(); gererIndications("R"); mem = mem"<text:p text:style-name=\"Refrain@@@\">"$0; apresvide = 0; next; }
-			{ if(apresvide) { aff(); gererIndications(substr($0, 1, index($0, "."))); mem = mem"<text:p text:style-name=\"Couplet@@@\">"$0; apresvide = 0; next; } }
+			{ if(apresvide) { aff(); gererIndications(substr($0, 1, index($0, ".") - 1)); mem = mem"<text:p text:style-name=\"Couplet@@@"couplet"\">"$0; apresvide = 0; next; } }
 			{ mem = mem"<text:line-break/>"$0; }
 		'
 	done 
