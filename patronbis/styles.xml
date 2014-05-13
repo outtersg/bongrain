@@ -46,7 +46,7 @@
 		</style:style>
 		<style:style style:name="Couplet" style:family="paragraph" style:parent-style-name="Standard" style:class="text">
 			<style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" fo:keep-together="always" fo:keep-with-next="always"/>
-			<style:text-properties style:font-name="Lato" fo:font-size="10pt"/>
+			<style:text-properties style:font-name="Lato" fo:font-size="@taillePolice@pt"/>
 		</style:style>
 		<style:style style:name="Couplet fin" style:family="paragraph" style:parent-style-name="Couplet" style:class="text">
 			<style:paragraph-properties fo:keep-with-next="auto"/>
