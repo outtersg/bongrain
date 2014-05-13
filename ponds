@@ -122,9 +122,9 @@ remplace()
 						{
 							pointilles = 1;
 							couplet = "";
+							++numIndication;
 						}
-						else
-							return;
+						return; "return, parce que soit le … porte sur la strophe actuelle et dans ce cas les autres diacritiques (resserrement) porteront sur le suivant, donc on se les laisse pour plus tard, soit ça ne porte pas et on attend."
 					}
 					++numIndication;
 				}
