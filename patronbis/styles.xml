@@ -48,8 +48,18 @@
 			<style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" fo:keep-together="always" fo:keep-with-next="always"/>
 			<style:text-properties style:font-name="Lato" fo:font-size="@taillePolice@pt"/>
 		</style:style>
+		<style:style style:name="Couplet tassé" style:family="paragraph" style:parent-style-name="Couplet" style:class="text">
+			<style:paragraph-properties fo:margin-bottom="0.15cm" style:contextual-spacing="false" fo:line-height="95%"/>
+		</style:style>
 		<style:style style:name="Couplet fin" style:family="paragraph" style:parent-style-name="Couplet" style:class="text">
 			<style:paragraph-properties fo:keep-with-next="auto"/>
+		</style:style>
+		<style:style style:name="Couplet fin tassé" style:family="paragraph" style:parent-style-name="Couplet tassé" style:class="text">
+			<style:paragraph-properties fo:keep-with-next="auto"/>
+		</style:style>
+		<style:style style:name="Pointilles" style:family="paragraph" style:parent-style-name="Couplet fin" style:class="text">
+			<style:paragraph-properties fo:text-align="center"/>
+			<style:text-properties fo:color="#808080" fo:font-size="12pt" fo:font-weight="bold"/>
 		</style:style>
 		<style:style style:name="List" style:family="paragraph" style:parent-style-name="Text_20_body" style:class="list"/>
 		<style:style style:name="Caption" style:family="paragraph" style:parent-style-name="Standard" style:class="extra">
