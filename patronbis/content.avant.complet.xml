@@ -54,7 +54,7 @@
 		</style:style>
 		<style:style style:name="P4" style:family="paragraph">
 			<style:paragraph-properties fo:text-align="end"/>
-			<style:text-properties style:font-name="Lato" fo:font-size="6pt" fo:font-style="italic" fo:color="#ffffff"/>
+			<style:text-properties style:font-name="Lato" fo:font-size="6pt" fo:font-style="italic" fo:color="#7f7f7f"/>
 		</style:style>
 	</office:automatic-styles>
 	<office:body>
@@ -106,9 +106,9 @@
 				<text:p text:style-name="P4"/>
 				<text:p text:style-name="P4"/>
 				<text:p text:style-name="P4"/>
-				<text:p text:style-name="P4">
-					<text:span>Merci de bien vouloir laisser cette feuille sur place&#x00a0;&#x00a0;</text:span>
-				</text:p>
 				<text:p text:style-name="P4"/>
+				<text:p text:style-name="P4">
+					<text:span>Merci de bien vouloir laisser cette feuille sur place&#x00a0;&#x00a0;&#x00a0;&#x00a0;</text:span>
+				</text:p>
 			</text:section>
 			<text:section text:style-name="Sect2" text:name="Chants">
