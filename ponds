@@ -83,6 +83,7 @@ do
 		--vers) shift ; dest="$1" ;; # Enregistrement de la table des matières.
 		-m) shift ; modele="$1" ;; # Modèle à utiliser.
 		-t) shift ; taillePolice="$1" ;;
+		--long) prefiltre=maj ;;
 		*) echo "$1" >> /tmp/params ;;
 	esac
 	shift
