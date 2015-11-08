@@ -107,11 +107,20 @@ remplace()
 {
 	sed -e "s|@imagesEnTete@|`imagesEnTete`|" -e "s|@taillePolice@|$taillePolice|g" -e "s|@taillePolice120@|`expr "$taillePolice" \* 120 | sed -e 's/\(..\)$/.\1/'`|g"
 }
-	
+
 (
+	nSection=0
 	remplace < "$avant"
-	sort -n < /tmp/tdm | while read cetN i indications
+	cat /tmp/tdm | while read cetN i indications
 	do
+		# Séparation style Supplément.
+		if [ "x$cetN" = "x+" ]
+		then
+			nSection=`expr $nSection + 1`
+			echo '<text:section text:style-name="SectionSupplément" text:name="SectionSuppl'$nSection'"><text:p text:style-name="Supplément">✣</text:p></text:section>'
+			continue
+		fi
+		# Chant normal.
 		indications="`echo "$indications" | tr '[' '\012' | grep "^$taillePolice]" | sed -e 's/[^]]*]//'`"
 		( numero $cetN ; espace < "$i" ) | $prefiltre | awk '
 			function gererIndications(numPara)
