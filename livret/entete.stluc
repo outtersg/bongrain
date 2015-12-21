@@ -1,7 +1,6 @@
 #!/bin/sh
 
-convert ../../Carte\ de\ visite/100_3005.JPG -crop 2750x850+1000+143 +repage /tmp/bande.png
-exit
+convert ../../Carte\ de\ visite/100_3005.JPG -crop 2750x850+2090+160 +repage /tmp/bande.png
 convert /tmp/bande.png -alpha set -channel A -fx 'sin(max(min(h-j-0,400),0)/400*pi/2)' -channel RGBA /tmp/degradee.png
 convert -size 2750x850 xc:none -draw 'roundrectangle 0,0,2750,2000,75,75' /tmp/masque.png
 convert /tmp/degradee.png -matte /tmp/masque.png -compose DstIn -composite 100_3005_final.png
