@@ -97,10 +97,18 @@ avant=patronbis/content.avant.$modele.xml
 n="`sort -n < /tmp/tdm | tail -1 | cut -d ' ' -f 1`"
 [ -z "$n" ] && n=0
 
+premiereNouvelle=oui
 cat /tmp/params | while read i
 do
 	cetN="`grep "^[0-9]* $i\( \|$\)" < /tmp/tdm | head -1 | cut -d ' ' -f 1`"
+	# Si on n'a pas trouvé le chant dans la table des matières de l'éventuelle précédente édition.
+	if [ -z "$cetN" ]
+	then
+		# Et si c'est le premier de ces nouveaux chants, et que ladite précédente édition comportait au moins un chant.
+		[ $premiereNouvelle = oui -a $n -gt 0 ] && echo "+" >> /tmp/tdm || true # Alors on ajoute un séparateur de supplément avant notre chant.
+		premiereNouvelle=non
 	[ -z "$cetN" ] && n=`expr $n + 1` && cetN="$n" && echo "$cetN $i" >> /tmp/tdm || true
+	fi
 done
 
 remplace()
