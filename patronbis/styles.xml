@@ -61,6 +61,14 @@
 			<style:paragraph-properties fo:text-align="center"/>
 			<style:text-properties fo:color="#808080" fo:font-size="12pt" fo:font-weight="bold"/>
 		</style:style>
+		<style:style style:name="Supplément" style:family="paragraph" style:parent-style-name="Couplet" style:class="text">
+			<style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.4cm" fo:text-align="center" style:justify-single-word="false"/>
+		</style:style>
+		<style:style style:name="SectionSupplément" style:family="section">
+			<style:section-properties style:editable="false">
+				<style:columns fo:column-count="1" fo:column-gap="0cm"/>
+			</style:section-properties>
+		</style:style>
 		<style:style style:name="List" style:family="paragraph" style:parent-style-name="Text_20_body" style:class="list"/>
 		<style:style style:name="Caption" style:family="paragraph" style:parent-style-name="Standard" style:class="extra">
 			<style:paragraph-properties fo:margin-top="0.212cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" text:number-lines="false" text:line-number="0"/>
