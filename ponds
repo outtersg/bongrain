@@ -77,6 +77,7 @@ sortie=/tmp/tmp/f.odt
 dest=
 modele=complet
 taillePolice=8
+enTete=patronbis/Pictures/IMG_2666_final.png
 while [ $# -gt 0 ]
 do
 	case "$1" in
@@ -86,6 +87,7 @@ do
 		-m) shift ; modele="$1" ;; # Modèle à utiliser.
 		-t) shift ; taillePolice="$1" ;;
 		--long) prefiltre=maj ;;
+		--en-tete) shift ; enTete="$1" ;;
 		*) echo "$1" >> /tmp/params ;;
 	esac
 	shift
@@ -168,6 +170,8 @@ remplace()
 ) > patron/content.xml
 
 remplace < patronbis/styles.xml > patron/styles.xml
+
+cp "$enTete" patron/Pictures/IMG_2666_final.png
 
 ( cd patron && rm -f "$sortie" .bak.* */.bak.* && 7za a -tzip "$sortie" . ) > /dev/null 2>&1
 echo http://outters.eu/gui/tmp/f.odt
