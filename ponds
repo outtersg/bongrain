@@ -4,7 +4,8 @@
 # for t in 10 12 ; do ( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds -o /tmp/f$t.odt --vers tdm.201401 -t $t *.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/f$t.odt && scp /tmp/f$t.pdf l:/tmp/tmp/f$t.pdf ) ; done
 
 # Pour regénérer la feuille afin de coller à la table des matières précédente (les chants déjà pondus gardent leur numéro, les nouveaux constituent un ajout à la fin):
-# ./ponds -o /tmp/f10.odt --de tdm.201401 -t 10 *.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/f10.odt && scp /tmp/f10.pdf l:/tmp/tmp/f11.pdf
+# ./ponds --en-tete livret/100_3005_final.png -o /tmp/f10-2015.odt --de tdm.201401 --vers tdm.201512 -t 10 *.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/f10-2015.odt && scp /tmp/f10-2015.pdf l:/tmp/tmp/f10-2015.pdf
+
 # Pour une feuille d'une soirée:
 # for t in 10 12 ; do ( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds -m simple -o /tmp/feuille$t.odt -t $t chant1.txt chant2.txt chantn.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/feuille$t.odt && scp /tmp/feuille$t.pdf l:/tmp/tmp/feuille$t.pdf ) ; done
 
