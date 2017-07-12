@@ -122,7 +122,7 @@ remplace()
 (
 	nSection=0
 	remplace < "$avant"
-	cat /tmp/tdm | while read cetN i indications
+	cat /tmp/tdm | sed -e 's/ *#.*//' -e '/^$/d' | while read cetN i indications
 	do
 		# Séparation style Supplément.
 		if [ "x$cetN" = "x+" ]
