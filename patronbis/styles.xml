@@ -93,6 +93,9 @@
 		<style:style style:name="Refrain" style:family="paragraph" style:parent-style-name="Couplet" style:next-style-name="Couplet" style:class="text">
 			<style:text-properties fo:font-weight="bold"/>
 		</style:style>
+		<style:style style:name="Refrain tassé" style:family="paragraph" style:parent-style-name="Refrain" style:class="text">
+			<style:paragraph-properties fo:margin-bottom="0.15cm" style:contextual-spacing="false" fo:line-height="95%"/>
+		</style:style>
 		<style:style style:name="Refrain fin" style:family="paragraph" style:parent-style-name="Refrain" style:next-style-name="Couplet" style:class="text">
 			<style:paragraph-properties fo:keep-with-next="auto"/>
 		</style:style>
