@@ -33,7 +33,7 @@ tasse()
 espace()
 {
 	# À FAIRE: ajouter les guillemets à la française.
-	insec="`echo c2a0 | HexToAsc`"
+	insec="`echo c2a0 | xxd -p -r`"
 	sed -E \
 		-e 's/ *$//' \
 		-e "s/( |$insec)*"'([!;:?])/\&#x202f;\2/g' \
