@@ -141,6 +141,11 @@ remplace()
 					indication = indications[numIndication];
 					if(indication == "v")
 						couplet = " tassé";
+					if(indication == "V")
+					{
+						couplet = " tassé";
+						refrain = " tassé";
+					}
 					if(match(indication, /…$/))
 					{
 						if(indication == numPara"…")
@@ -162,7 +167,7 @@ remplace()
 			END { finirPara(); aff(1); }
 			{ if(FNR == 1) { aff(1); mem = mem"<text:h text:style-name=\"Titre\" text:outline-level=\"5\">"$0"</text:h>"; apresvide = 1; next; } }
 			{ avant = 1; }
-			/^R\. / { aff(); gererIndications("R"); mem = mem"<text:p text:style-name=\"Refrain@@@\">"$0; apresvide = 0; next; }
+			/^R\. / { aff(); gererIndications("R"); mem = mem"<text:p text:style-name=\"Refrain@@@"refrain"\">"$0; apresvide = 0; next; }
 			{ if(apresvide) { aff(); gererIndications(substr($0, 1, index($0, ".") - 1)); mem = mem"<text:p text:style-name=\"Couplet@@@"couplet"\">"$0; apresvide = 0; next; } }
 			{ mem = mem"<text:line-break/>"$0; }
 		'
