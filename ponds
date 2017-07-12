@@ -174,7 +174,7 @@ remplace < patronbis/styles.xml > patron/styles.xml
 
 cp "$enTete" patron/Pictures/IMG_2666_final.png
 
-( cd patron && rm -f "$sortie" .bak.* */.bak.* && 7za a -tzip "$sortie" . ) > /dev/null 2>&1
+( cd patron && rm -f "$sortie" && find . -type f -name ".bak.*" -exec rm {} \; && 7za a -tzip "$sortie" . ) > /dev/null 2>&1
 echo http://outters.eu/gui/tmp/f.odt
 
 [ -z "$dest" ] || cat /tmp/tdm > "$dest"
