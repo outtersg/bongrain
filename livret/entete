@@ -20,3 +20,12 @@ convert /tmp/bande.png -alpha set -channel A -fx 'sin(max(min(h-j-0,400),0)/400*
 # http://stackoverflow.com/questions/718314/rounding-corners-of-pictures-with-imagemagick
 convert -size 2750x850 xc:none -draw 'roundrectangle 0,0,2750,2000,75,75' /tmp/masque.png
 convert /tmp/degradee.png -matte /tmp/masque.png -compose DstIn -composite IMG_2666_final.png
+
+# http://www.imagemagick.org/Usage/blur#shadow_outline
+convert ../patron/Pictures/Ostensoir.png \( +clone -alpha extract -transparent black -shadow 100x100+0+0 -channel A -level 0,50% +channel \) +swap -background None -layers merge +repage /tmp/ostensoir.png
+convert /tmp/degradee.png /tmp/ostensoir.png -geometry x600+2200-25 -composite /tmp/entete.png
+convert /tmp/tmp/tout.png -resize x400 -quality 90 \( +clone -background white \) +swap -layers merge /tmp/tmp/entete.jpg
+
+convert -size 100x100 "xc:rgba(255, 255, 255, 0.75)" /tmp/tmp/blanc75.png
+
+convert -size 2750x100 'xc:rgb(200,175,50)' /tmp/ostensoir.png -geometry x100+1150+0 -composite /tmp/tmp/simple.jpg
