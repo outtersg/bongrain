@@ -28,4 +28,6 @@ convert /tmp/tmp/tout.png -resize x400 -quality 90 \( +clone -background white \
 
 convert -size 100x100 "xc:rgba(255, 255, 255, 0.75)" /tmp/tmp/blanc75.png
 
-convert -size 2750x100 'xc:rgb(200,175,50)' /tmp/ostensoir.png -geometry x100+1150+0 -composite /tmp/tmp/simple.jpg
+# De quoi tenter de faire un en-tête pour courriel.
+#convert -size 1500x200 'xc:rgb(200,175,50)' /tmp/ostensoir.png -geometry x200+1300+0 -composite /tmp/tmp/fond0.jpg
+#openssl base64 < /tmp/tmp/fond0.jpg
