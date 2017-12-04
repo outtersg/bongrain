@@ -24,7 +24,7 @@ convert /tmp/degradee.png -matte /tmp/masque.png -compose DstIn -composite IMG_2
 # http://www.imagemagick.org/Usage/blur#shadow_outline
 convert ../patron/Pictures/Ostensoir.png \( +clone -alpha extract -transparent black -shadow 100x100+0+0 -channel A -level 0,50% +channel \) +swap -background None -layers merge +repage /tmp/ostensoir.png
 convert /tmp/degradee.png /tmp/ostensoir.png -geometry x600+2200-25 -composite /tmp/entete.png
-convert /tmp/tmp/tout.png -resize x400 -quality 90 \( +clone -background white \) +swap -layers merge /tmp/tmp/entete.jpg
+convert /tmp/entete.png -resize x400 -quality 90 \( +clone -background white \) +swap -layers merge /tmp/tmp/entete.jpg
 
 convert -size 100x100 "xc:rgba(255, 255, 255, 0.75)" /tmp/tmp/blanc75.png
 
