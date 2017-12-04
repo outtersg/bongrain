@@ -33,4 +33,6 @@ convert -size 100x100 "xc:rgba(255, 255, 255, 0.75)" /tmp/tmp/blanc75.png
 #openssl base64 < /tmp/tmp/fond0.jpg
 
 # En-tête de courriel.
-convert /tmp/corrigee.png -crop 2211+539+701 +repage /tmp/tmp/bandeclo.png
+convert /tmp/corrigee.png -crop 2211x473+539+126 +repage /tmp/bandeclo.png
+convert /tmp/bandeclo.png /tmp/ostensoir.png -geometry x600+1656-64 -composite /tmp/tmp/entetebis.png
+convert /tmp/tmp/entetebis.png -resize x315 -quality 90 \( +clone -background white \) +swap -layers merge /tmp/tmp/entetebis.jpg
