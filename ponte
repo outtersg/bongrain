@@ -1,0 +1,13 @@
+#!/bin/sh
+
+PATH="/Applications/LibreOffice.app/Contents/MacOS:/usr/local/bin:$PATH"
+LD_LIBRARY_PATH=/usr/local/lib
+
+entete=100_3005_final.png # Saint-Luc
+entete=IMG_2666_final.png # Saint-Jacques
+
+# Ajouter les chants 2018 et prégénérer une table des matières.
+#./ponds --en-tete "livret/$entete" -o /tmp/tmp/f10-2018.odt --de tdm.201401 --vers tdm.201801 -t 10 *.txt
+./ponds --en-tete "livret/$entete" -o /tmp/tmp/f10-2018.odt --de tdm.201801 -t 10 *.txt
+soffice --headless --convert-to pdf --outdir /tmp/tmp/ /tmp/tmp/f10-2018.odt
+#scp /tmp/tmp/f10-2017.pdf m:/tmp/tmp/f10-2017.pdf
