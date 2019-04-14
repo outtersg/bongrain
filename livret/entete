@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# http://www.imagemagick.org/Usage/compose/#divide
+# http://www.imagemagick.org/Usage/photos/#vignettation
+#convert IMG_2666.JPG \( +clone -blur 0x40 \) -compose Divide_Src -composite IMG_2666_corrigee.JPG
+convert IMG_2666.JPG -distort Perspective '146,151 0,0   12,1503 0,1300   2826,1492 2756,1300   2700,130 2750,0' -crop 2750x1300+0+0 +repage IMG_2666_redressee.png
+convert IMG_2666_redressee.png -blur 0x200 -colorspace Gray IMG_2666_lumi.png
+convert IMG_2666_redressee.png \( IMG_2666_lumi.png -brightness-contrast 30x30 \) -compose Divide_Src -composite -auto-level IMG_2666_corrigee.png
+# http://blog.guillaumefoucart.be/article3/bien-redimensionner-ses-photos-avec-imagemagick
+# Éventuellement:
+#convert IMG_2666_corrigee.png -unsharp 0x1.6 IMG_2666_corrigee2.png
+#convert IMG_2666_corrigee.png -unsharp 120x100+0.5 IMG_2666_corrigee3.png
+# http://blog.barijaona.com/photos/workflow4.html; très intéressant, il y a sans doute d'autres scripts à y récupérer.
+#convert IMG_2666_corrigee.png -unsharp 60x50+1+0.0079 IMG_2666_corrigee3.png
+# Sinon sous Gimp, rayon 200, quantité 0,3; cf. correspondances sur http://redskiesatnight.com/2005/04/06/sharpening-using-image-magick/
+convert IMG_2666_corrigee.png -crop 2750x750+0+143 +repage IMG_2666_bande.png
+# http://stackoverflow.com/questions/718314/rounding-corners-of-pictures-with-imagemagick
+convert -size 2750x750 xc:none -draw 'roundrectangle 0,0,2750,2000,75,75' /tmp/masque.png
+convert IMG_2666_bande.png -matte /tmp/masque.png -compose DstIn -composite IMG_2666_bande_coins.png
