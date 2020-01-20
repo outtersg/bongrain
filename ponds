@@ -11,6 +11,8 @@
 
 DelieS() { local s2 ; while [ -h "$s" ] ; do s2="`readlink "$s"`" ; case "$s2" in [^/]*) s2="`dirname "$s"`/$s2" ;; esac ; s="$s2" ; done ; } ; SCRIPTS() { local s="`command -v "$0"`" ; [ -x "$s" -o ! -x "$0" ] || s="$0" ; case "$s" in */bin/*sh) case "`basename "$s"`" in *.*) true ;; *sh) s="$1" ;; esac ;; esac ; case "$s" in [^/]*) s="`pwd`/$s" ;; esac ; DelieS ; s="`dirname "$s"`" ; DelieS ; SCRIPTS="$s" ; } ; SCRIPTS
 
+CHANTS=.
+
 PATH=/home/gui/bin:/Users/gui/bin:$PATH
 
 # Tout sur une ligne, ou bien couplets présentés comme il se doit?
@@ -60,44 +62,59 @@ numeroSimple()
 
 imagesEnTete()
 {
+	local n source image
+	for source in $enTetes
+	do
+		case "$source" in
+			*.txt) true ;;
+			*) continue ;;
+		esac
 	n=0
-	cat patronbis/en-tetes.txt | grep -v '^#' | while read taille x y texte
+		cat "$source" | grep -v '^#' | while read taille x y texte
 	do
 		n=`expr $n + 1`
-		image="Pictures/en-tete.$n.png"
-		identify -verbose "patron/$image" | grep Geometry: | sed -e 's/[x+]/ /g' | while read bidonavant l h bidonapres
+			image="`echo "$source" | sed -e "s/[^.]*$/$n.png/"`" # À FAIRE: regénérer le .png à partir du .txt.
+			cp "$image" "$tmpat/Pictures/"
+		identify -verbose "$image" | grep Geometry: | sed -e 's/[x+]/ /g' | while read bidonavant l h bidonapres
 		do
 			l="`expr $l \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
 			h="`expr $h \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
-			echo '<draw:frame draw:style-name="fr1" draw:name="'"$image"'" text:anchor-type="page" text:anchor-page-number="1" svg:x="'"$x"'cm" svg:y="'"$y"'cm" svg:width="'"$l"'cm" svg:height="'"$h"'cm" draw:z-index="27"><draw:image xlink:href="'"$image"'" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>';
+			image="`basename "$image"`"
+			echo '<draw:frame draw:style-name="fr1" draw:name="'"$image"'" text:anchor-type="page" text:anchor-page-number="1" svg:x="'"$x"'cm" svg:y="'"$y"'cm" svg:width="'"$l"'cm" svg:height="'"$h"'cm" draw:z-index="27"><draw:image xlink:href="Pictures/'"$image"'" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>';
+			done
 		done
 	done | tr -d '\012'
 }
 
+pondre()
+{
 > /tmp/tdm
 > /tmp/params
 sortie=/tmp/tmp/f.odt
 dest=
+	tmpat=patron # Mot-valise de tmp et patron: où l'on entrepose ce qui une fois zippé deviendra le .odt.
 modele=complet
 taillePolice=8
-enTete=patronbis/Pictures/IMG_2666_final.png
+	enTetes=
 while [ $# -gt 0 ]
 do
 	case "$1" in
 		-o) shift ; sortie="$1" ;;
+			--chants) shift ; CHANTS="$1" ;;
 		--de) shift ; cat "$1" > /tmp/tdm ;; # Si l'on reprend une ancienne table des matières (pour ajouter des numéros de chants à la fin plutôt que de repartir de 1).
 		--vers) shift ; dest="$1" ;; # Enregistrement de la table des matières.
 		-m) shift ; modele="$1" ;; # Modèle à utiliser.
 		-t) shift ; taillePolice="$1" ;;
 		--long) prefiltre=maj ;;
-		--en-tete) shift ; enTete="$1" ;;
+			--en-tete) shift ; enTetes="$1" ;;
+			--temp) shift ; tmpat="$1" ;;
 		*) echo "$1" >> /tmp/params ;;
 	esac
 	shift
 done
 
 
-avant=patronbis/content.avant.$modele.xml
+	avant="$SCRIPTS/patronbis/content.avant.$modele.xml"
 
 n="`sort -n < /tmp/tdm | tail -1 | cut -d ' ' -f 1`"
 [ -z "$n" ] && n=0
@@ -121,6 +138,7 @@ remplace()
 	sed -e "s|@imagesEnTete@|`imagesEnTete`|" -e "s|@taillePolice@|$taillePolice|g" -e "s|@taillePolice120@|`expr "$taillePolice" \* 120 | sed -e 's/\(..\)$/.\1/'`|g"
 }
 
+	mkdir -p "$tmpat/Pictures"
 (
 	nSection=0
 	remplace < "$avant"
@@ -135,7 +153,7 @@ remplace()
 		fi
 		# Chant normal.
 		indications="`echo "$indications" | tr '[' '\012' | grep "^$taillePolice]" | sed -e 's/[^]]*]//'`"
-		( numero $cetN ; espace < "$i" ) | $prefiltre | awk '
+		( numero $cetN ; espace < "$CHANTS/$i" ) | $prefiltre | awk '
 			function gererIndications(numPara)
 			{
 				while(numIndication <= nIndications)
@@ -174,14 +192,27 @@ remplace()
 			{ mem = mem"<text:line-break/>"$0; }
 		'
 	done 
-	cat patronbis/content.apres.xml
-) > patron/content.xml
+		cat "$SCRIPTS/patronbis/content.apres.xml"
+	) > "$tmpat/content.xml"
 
-remplace < patronbis/styles.xml > patron/styles.xml
+	remplace < "$SCRIPTS/patronbis/styles.xml" > "$tmpat/styles.xml"
+	
+	( cd "$SCRIPTS/patronbis" && tar cf - layout-cache manifest.rdf meta.xml mimetype settings.xml Configurations2 META-INF Thumbnails ) | ( cd "$tmpat" && tar xf - )
 
-cp "$enTete" patron/Pictures/IMG_2666_final.png
+	local enTete
+	for enTete in $enTetes
+	do
+		case "$enTete" in
+			*.txt) continue ;;
+		esac
+		cp "$enTete" "$tmpat/Pictures/"
+	done
 
-( cd patron && rm -f "$sortie" && find . -type f -name ".bak.*" -exec rm {} \; && 7za a -tzip "$sortie" . ) > /dev/null 2>&1
+	case "$sortie" in /*) true ;; *) sortie="`pwd`/$sortie" ;; esac
+	( cd "$tmpat" && rm -f "$sortie" && find . -type f -name ".bak.*" -exec rm {} \; && 7za a -tzip "$sortie" . ) > /dev/null 2>&1
 echo http://outters.eu/gui/tmp/f.odt
 
 [ -z "$dest" ] || cat /tmp/tdm > "$dest"
+}
+
+pondre "$@"
