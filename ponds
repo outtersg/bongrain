@@ -29,6 +29,15 @@ maj()
 	uconv -f utf-8 -t utf-8 -x '^(.)(.*)>&upper($1)$2;'
 }
 
+filtrer()
+{
+	local r=0
+	local f="$1" ; shift
+	"$@" < "$f" > "$f.filtre" && cat "$f.filtre" > "$f" || r=$?
+	rm "$f.filtre"
+	return $r
+}
+
 tasse()
 {
 	awk '/^$/{print mem;print;mem="";next}END{print mem}{if(mem)mem=mem"<text:span text:style-name=\"Filigrane\">/</text:span>&#x200b;";mem=mem$0}' #| sed -e 's#[.!?;:, ]* / # / #g'
@@ -62,7 +71,7 @@ numeroSimple()
 
 imagesEnTete()
 {
-	local n source image
+	local n source image type style x y largeur taille texte
 	for source in $enTetes
 	do
 		case "$source" in
@@ -70,20 +79,63 @@ imagesEnTete()
 			*) continue ;;
 		esac
 	n=0
-		cat "$source" | grep -v '^#' | while read taille x y texte
-	do
-		n=`expr $n + 1`
-			image="`echo "$source" | sed -e "s/[^.]*$/$n.png/"`" # À FAIRE: regénérer le .png à partir du .txt.
-			cp "$image" "$tmpat/Pictures/"
-		identify -verbose "$image" | grep Geometry: | sed -e 's/[x+]/ /g' | while read bidonavant l h bidonapres
+		cat "$source" | grep -v '^#' | while read type reste
 		do
-			l="`expr $l \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
-			h="`expr $h \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
-			image="`basename "$image"`"
-			echo '<draw:frame draw:style-name="fr1" draw:name="'"$image"'" text:anchor-type="page" text:anchor-page-number="1" svg:x="'"$x"'cm" svg:y="'"$y"'cm" svg:width="'"$l"'cm" svg:height="'"$h"'cm" draw:z-index="27"><draw:image xlink:href="Pictures/'"$image"'" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>';
-			done
+			case "$type" in
+				-)
+					echo '<draw:frame draw:style-name="gr0" text:anchor-type="page" text:anchor-page-number="1" svg:x="0cm" svg:y="0cm" svg:width="21cm" svg:height="'"$reste"'cm" draw:z-index="27"><draw:image xlink:href="Pictures/rien.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>'
+					;;
+				i)
+					echo "$reste" | while read style x y largeur image
+					do
+						imager -l "$largeur" "$style" "$image"
+					done
+					;;
+				t)
+		n=`expr $n + 1`
+					echo "$reste" | while read taille x y texte
+	do
+						image="`echo "$source" | sed -e "s/[^.]*$/$n.png/"`" # À FAIRE: regénérer le .png à partir du .txt.
+						imager fr1 "$image"
+					done
+					;;
+			esac
 		done
 	done | tr -d '\012'
+}
+
+imager()
+{
+	local largeur=
+	[ "x$1" = x-l ] && shift && largeur="$1" && shift || true
+	local style="$1"
+	local image="$2"
+	local ancrage='text:anchor-type="page" text:anchor-page-number="1"'
+	[ $# -lt 3 ] || ancrage="$3"
+		identify -verbose "$image" | grep Geometry: | sed -e 's/[x+]/ /g' | while read bidonavant l h bidonapres
+		do
+		if [ -z "$largeur" ]
+		then
+			l="`expr $l \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
+			h="`expr $h \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
+		else
+			h="`LC_ALL=C awk 'END{ print('$h' * '$largeur' / '$l'); }'`"
+			l="$largeur"
+		fi
+		cp "$image" "$tmpat/Pictures/"
+			image="`basename "$image"`"
+		echo '<draw:frame draw:style-name="'"$style"'" draw:name="'"$image"'" '"$ancrage"' svg:x="'"$x"'cm" svg:y="'"$y"'cm" svg:width="'"$l"'cm" svg:height="'"$h"'cm" draw:z-index="27"><draw:image xlink:href="Pictures/'"$image"'" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>';
+			manifester "Pictures/$image"
+			done
+}
+
+manifester()
+{
+	filtrer "$tmpat/META-INF/manifest.xml" awk '
+BEGIN { reste = 1; }
+reste&&/manifest:full-path="/&&!/manifest:full-path="Pictures\//&&!/manifest:full-path="\/"/{ print "<manifest:file-entry manifest:full-path=\"'"$1"'\" manifest:media-type=\"\"/>"; reste = 0; }
+{ print; }
+'
 }
 
 pondre()
@@ -135,10 +187,16 @@ done
 
 remplace()
 {
-	sed -e "s|@imagesEnTete@|`imagesEnTete`|" -e "s|@taillePolice@|$taillePolice|g" -e "s|@taillePolice120@|`expr "$taillePolice" \* 120 | sed -e 's/\(..\)$/.\1/'`|g"
+	sed \
+		-e "s|@imagesEnTete@|`imagesEnTete`|" \
+		-e "s|@taillePolice@|$taillePolice|g" \
+		-e "s|@taillePolice120@|`expr "$taillePolice" \* 120 \
+		| sed -e 's/\(..\)$/.\1/'`|g"
 }
 
 	mkdir -p "$tmpat/Pictures"
+	
+	( cd "$SCRIPTS/patronbis" && tar cf - layout-cache manifest.rdf meta.xml mimetype settings.xml Configurations2 META-INF Thumbnails ) | ( cd "$tmpat" && tar xf - )
 (
 	nSection=0
 	remplace < "$avant"
@@ -196,17 +254,6 @@ remplace()
 	) > "$tmpat/content.xml"
 
 	remplace < "$SCRIPTS/patronbis/styles.xml" > "$tmpat/styles.xml"
-	
-	( cd "$SCRIPTS/patronbis" && tar cf - layout-cache manifest.rdf meta.xml mimetype settings.xml Configurations2 META-INF Thumbnails ) | ( cd "$tmpat" && tar xf - )
-
-	local enTete
-	for enTete in $enTetes
-	do
-		case "$enTete" in
-			*.txt) continue ;;
-		esac
-		cp "$enTete" "$tmpat/Pictures/"
-	done
 
 	case "$sortie" in /*) true ;; *) sortie="`pwd`/$sortie" ;; esac
 	( cd "$tmpat" && rm -f "$sortie" && find . -type f -name ".bak.*" -exec rm {} \; && 7za a -tzip "$sortie" . ) > /dev/null 2>&1

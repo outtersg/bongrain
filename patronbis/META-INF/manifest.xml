@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.2">
  <manifest:file-entry manifest:full-path="/" manifest:version="1.2" manifest:media-type="application/vnd.oasis.opendocument.text"/>
- <manifest:file-entry manifest:full-path="Pictures/Ostensoir.png" manifest:media-type=""/>
- <manifest:file-entry manifest:full-path="Pictures/gal-1583269.png" manifest:media-type=""/>
- <manifest:file-entry manifest:full-path="Pictures/IMG_2666_final.png" manifest:media-type=""/>
- <manifest:file-entry manifest:full-path="Pictures/en-tete.1.png" manifest:media-type=""/>
- <manifest:file-entry manifest:full-path="Pictures/en-tete.2.png" manifest:media-type=""/>
- <manifest:file-entry manifest:full-path="Pictures/en-tete.3.png" manifest:media-type=""/>
- <manifest:file-entry manifest:full-path="Pictures/en-tete.4.png" manifest:media-type=""/>
  <manifest:file-entry manifest:full-path="meta.xml" manifest:media-type="text/xml"/>
  <manifest:file-entry manifest:full-path="settings.xml" manifest:media-type="text/xml"/>
  <manifest:file-entry manifest:full-path="content.xml" manifest:media-type="text/xml"/>
