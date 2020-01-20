@@ -119,7 +119,7 @@ imager()
 			l="`expr $l \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
 			h="`expr $h \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
 		else
-			h="`LC_ALL=C awk 'END{ print('$h' * '$largeur' / '$l'); }'`"
+			h="`LC_ALL=C awk < /dev/null 'END{ print('$h' * '$largeur' / '$l'); }'`"
 			l="$largeur"
 		fi
 		cp "$image" "$tmpat/Pictures/"
