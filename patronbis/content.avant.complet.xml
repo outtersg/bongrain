@@ -19,7 +19,7 @@
 			<style:text-properties fo:font-size="@taillePolice120@pt" fo:font-weight="bold" style:font-name="Lato" fo:color="#ffffff"/>
 		</style:style>
 		<style:style style:name="gr0" style:family="graphic">
-			<style:graphic-properties draw:stroke="solid" svg:stroke-width="0.03cm" svg:stroke-color="#000000" draw:fill="solid" draw:fill-color="#000000" draw:textarea-vertical-align="middle" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.002cm" fo:padding-top="-0.02cm" fo:padding-bottom="-0.00cm" style:run-through="foreground" style:vertical-pos="middle" style:vertical-rel="text" style:horizontal-pos="from-left" style:horizontal-rel="paragraph" draw:wrap-influence-on-position="once-concurrent" style:flow-with-text="false" style:wrap="none"/>
+			<style:graphic-properties style:run-through="foreground" style:wrap="none" style:horizontal-pos="center" style:horizontal-rel="paragraph" style:mirror="none" fo:clip="rect(0cm, 0cm, 0cm, 0cm)" draw:luminance="0%" draw:contrast="0%" draw:red="0%" draw:green="0%" draw:blue="0%" draw:gamma="100%" draw:color-inversion="false" draw:image-opacity="100%" draw:color-mode="standard"/>
 		</style:style>
 		<style:style style:name="gr1" style:family="graphic">
 			<style:graphic-properties draw:stroke="solid" svg:stroke-width="0.03cm" svg:stroke-color="#000000" draw:fill="solid" draw:fill-color="#000000" draw:textarea-vertical-align="middle" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.002cm" fo:padding-top="-0.02cm" fo:padding-bottom="-0.00cm" style:run-through="foreground" style:vertical-pos="middle" style:vertical-rel="text" style:horizontal-pos="from-left" style:horizontal-rel="paragraph" draw:wrap-influence-on-position="once-concurrent" style:flow-with-text="false"/>
