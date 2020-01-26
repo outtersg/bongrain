@@ -131,9 +131,15 @@ imager()
 
 manifester()
 {
+	local chemin="$1"
+	local mime= cheminExpr="`echo "$chemin" | sed -e 's#/#\\\\/#g'`"
+	case "$chemin" in
+		*.png) mime=image/png ;;
+	esac
 	filtrer "$tmpat/META-INF/manifest.xml" awk '
 BEGIN { reste = 1; }
-reste&&/manifest:full-path="/&&!/manifest:full-path="Pictures\//&&!/manifest:full-path="\/"/{ print "<manifest:file-entry manifest:full-path=\"'"$1"'\" manifest:media-type=\"\"/>"; reste = 0; }
+/manifest:full-path="'"$cheminExpr"'"/{ reste = 0; }
+reste&&/manifest:full-path="/&&!/manifest:full-path="Pictures\//&&!/manifest:full-path="\/"/{ print "<manifest:file-entry manifest:full-path=\"'"$chemin"'\" manifest:media-type=\"'"$mime"'\"/>"; reste = 0; }
 { print; }
 '
 }
