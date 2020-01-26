@@ -84,6 +84,8 @@ imagesEnTete()
 			case "$type" in
 				-)
 					echo '<draw:frame draw:style-name="gr0" text:anchor-type="page" text:anchor-page-number="1" svg:x="0cm" svg:y="0cm" svg:width="21cm" svg:height="'"$reste"'cm" draw:z-index="27"><draw:image xlink:href="Pictures/rien.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>'
+					cp "$SCRIPTS/patronbis/Pictures/rien.png" "$tmpat/Pictures/"
+					manifester "Pictures/rien.png"
 					;;
 				i)
 					echo "$reste" | while read style x y largeur image
