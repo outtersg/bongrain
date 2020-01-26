@@ -23,7 +23,7 @@
 		</style:default-style>
 		<style:default-style style:family="paragraph">
 			<style:paragraph-properties fo:hyphenation-ladder-count="no-limit" style:text-autospace="ideograph-alpha" style:punctuation-wrap="hanging" style:line-break="strict" style:tab-stop-distance="1.251cm" style:writing-mode="page"/>
-			<style:text-properties style:use-window-font-color="true" style:font-name="Times New Roman" fo:font-size="12pt" fo:language="fr" fo:country="FR" style:language-asian="zh" style:country-asian="CN" style:language-complex="hi" style:country-complex="IN" fo:hyphenate="false" fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+			<style:text-properties style:letter-kerning="true" style:use-window-font-color="true" style:font-name="Times New Roman" fo:font-size="12pt" fo:language="fr" fo:country="FR" style:language-asian="zh" style:country-asian="CN" style:language-complex="hi" style:country-complex="IN" fo:hyphenate="false" fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
 		</style:default-style>
 		<style:default-style style:family="table">
 			<style:table-properties table:border-model="collapsing"/>
