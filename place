@@ -65,10 +65,12 @@ TERMINE
 
 analyserParametresEtFaire()
 {
+	local decoupe=
 	while [ $# -gt 0 ]
 	do
 		case "$1" in
 			-h) auSecours ;;
+			-f) shift ; command -v "decoupe_$1" || err "# Format $1 inconnu." ; decoupe="decoupe_$1" ;;
 			*) break ;;
 		esac
 		shift
@@ -81,6 +83,20 @@ then
 		fais "$i"
 	done
 else
+		[ -n "$decoupe" ] || auSecours
+		$decoupe
+		for i in $TMP/*
+		do
+			fais "$i"
+		done
+	fi
+}
+
+# > Titre
+# 
+# R. Refrain
+decoupe_pg()
+{
 	awk '
 BEGIN { n = 0; }
 /^> / { ++n; if(f) close(f); f = "'$TMP'/chant."n ; print substr($0, 3) > f ; prems = 1; next; }
@@ -89,11 +105,6 @@ BEGIN { n = 0; }
 /^[R0-9][.]/ { print "" > f; prems = 0; }
 { if(prems) print "" > f; print > f; prems = 0; }
 '
-	for i in $TMP/*
-	do
-		fais "$i"
-	done
-fi
 }
 
 rm -Rf $TMP
