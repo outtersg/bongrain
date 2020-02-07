@@ -33,8 +33,36 @@ fais()
 		< "$1" > "$f"
 }
 
+auSecours()
+{
+	local moi="`basename "$0"`"
+	
+	cat >&2 <<TERMINE
+# $moi © Guillaume Outters 2013, 2015, 2020
+# Nettoie et organise des fichiers de paroles de chants
+Utilisation:
+  $moi <chant.txt>+
+  $moi < <chants.txt>
+  <chant.txt>
+    Fichier contenant un seul chant; sa première ligne est prise pour titre.
+  <chants.txt>
+    Fichier contenant plusieurs chants les uns à la suite des autres.
+TERMINE
+	
+	exit 1
+}
+
 analyserParametresEtFaire()
 {
+	while [ $# -gt 0 ]
+	do
+		case "$1" in
+			-h) auSecours ;;
+			*) break ;;
+		esac
+		shift
+	done
+	
 if [ $# -gt 0 ]
 then
 	for i in "$@"
