@@ -42,12 +42,17 @@ auSecours()
 # Nettoie et organise des fichiers de paroles de chants
 Utilisation:
   $moi <chant.txt>+
-  $moi < <chants.txt>
+  $moi -f <format> < <chants.txt>
   <chant.txt>
     Fichier contenant un seul chant; sa première ligne est prise pour titre.
   <chants.txt>
     Fichier contenant plusieurs chants les uns à la suite des autres.
+  -f <format>
+    Format à suivre pour la découpe. Formats disponibles:
 TERMINE
+	local aide
+	local ouSuisJe="`command -v "$0"`"
+	awk < "$ouSuisJe" '/^# /{accu=(accu?accu"\n":"")substr($0,3);next}/^decoupe_.*\(\)$/{sub(/^[^_]*_/,"");sub(/\(\)/,"");gsub(/^|\n/,"\n        ",accu);print"      "$0""accu}{accu=""}' >&2
 	
 	exit 1
 }
