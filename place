@@ -33,6 +33,8 @@ fais()
 		< "$1" > "$f"
 }
 
+analyserParametresEtFaire()
+{
 if [ $# -gt 0 ]
 then
 	for i in "$@"
@@ -53,5 +55,8 @@ BEGIN { n = 0; }
 		fais "$i"
 	done
 fi
+}
 
 rm -Rf $TMP
+
+analyserParametresEtFaire "$@"
