@@ -33,6 +33,12 @@ fais()
 		< "$1" > "$f"
 }
 
+err()
+{
+	echo "$*" >&2
+	exit 1
+}
+
 auSecours()
 {
 	local moi="`basename "$0"`"
