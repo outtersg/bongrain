@@ -6,7 +6,14 @@ debroussaille()
 }
 
 TMP=/tmp/temp.place.$$
+menage()
+{
+	case "$TMP" in
+		/tmp/temp.*) rm -Rf $TMP ;;
+	esac
+}
 mkdir $TMP
+trap menage EXIT
 
 fais()
 {
@@ -106,7 +113,5 @@ BEGIN { n = 0; }
 { if(prems) print "" > f; print > f; prems = 0; }
 '
 }
-
-rm -Rf $TMP
 
 analyserParametresEtFaire "$@"
