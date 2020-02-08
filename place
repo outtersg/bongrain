@@ -114,4 +114,18 @@ BEGIN { n = 0; }
 '
 }
 
+# 123. TITRE
+# 
+# R. Refrain
+decoupe_maj()
+{
+	awk '
+BEGIN{ n = 0; }
+/^[0-9]+\. .*[A-Z][A-Z][A-Z]/{ ++n; if(f) close(f); f = "'$TMP'/chant."n; sub(/^[0-9]+\. */, ""); print > f; prems = 1; next; }
+/^$/{ next; }
+/^[R0-9][.]/{ print "" > f; prems = 0; }
+{ if(prems) print "" > f; print > f; prems = 0; }
+'
+}
+
 analyserParametresEtFaire "$@"
