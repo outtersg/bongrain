@@ -1,0 +1,87 @@
+#!/bin/sh
+
+TMP=/tmp/temp.place.$$
+menage()
+{
+	case "$TMP" in
+		/tmp/temp.*) rm -Rf $TMP ;;
+	esac
+}
+mkdir $TMP
+trap menage EXIT
+
+filtrer()
+{
+	local r=0 f="$1" ; shift
+	"$@" < "$f" > "$f.filtre" && cat "$f.filtre" > "$f" || r=$?
+	rm "$f.filtre"
+	return $r
+}
+
+faire()
+{
+	local d sd diffi=
+	mkdir "$TMP/a" "$TMP/b"
+	[ -d "$1" ] && cp -R "$1/." "$TMP/a/" || cp "$1" "$TMP/a/"
+	[ -d "$2" ] && cp -R "$2/." "$TMP/b/" || cp "$2" "$TMP/b/"
+	for d in "$TMP/a" "$TMP/b"
+	do
+		find "$d" -type f | while read f
+		do
+			if [ -n "$TEXTE_SEUL" ]
+			then
+				filtrer "$f" texteSeul
+			fi
+		done
+	done
+	[ -z "$TEXTE_SEUL" ] || diffi=i
+	diff -ruw$diffi "$TMP/a" "$TMP/b"
+}
+
+err()
+{
+	echo "$*" >&2
+	exit 1
+}
+
+auSecours()
+{
+	local moi="`basename "$0"`"
+	
+	cat >&2 <<TERMINE
+# $moi © Guillaume Outters 2020
+# Compare deux fichiers ou dossiers de paroles de chants.
+Utilisation:
+  $moi [-t] <dossier a> <dossier b>
+  -t
+    Texte uniquement. Les différences de casse, de ponctuation, d'accentuation sont gommées.
+TERMINE
+	
+	exit 1
+}
+
+analyserParametresEtFaire()
+{
+	TEXTE_SEUL=
+	while [ $# -gt 0 ]
+	do
+		case "$1" in
+			-h) auSecours ;;
+			-t) TEXTE_SEUL=1 ;;
+			*) break ;;
+		esac
+		shift
+	done
+	
+	[ $# -eq 2 ] || auSecours
+	
+	faire "$@"
+}
+
+texteSeul()
+{
+	# Le -t utf-8 permet de conserver les ´ non convertis en ' par le -x. Sans cela il s'interrompt brusquement au premier caractère non reconnu.
+	uconv -f utf-8 -t utf-8 -x 'Latin-ASCII' | LC_ALL=C sed -e 's/[ ,:;.!?…'\''´"][ ,:;.!?…'\''´"]*/ /g' -e 's/ $//'
+}
+
+analyserParametresEtFaire "$@"
