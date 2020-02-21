@@ -74,6 +74,91 @@ numeroSimple()
 	printf "$1. "
 }
 
+exprMarges()
+{
+	# - Reconnaissance des numériques, qu'on met entre parenthèses
+	# - Dans les parenthèses, , devient .
+	# - Reconnaissance de marges spécifiques suivant leur mot-clé, et transformation en une affectation; découpe préliminaire (par un ; qui sera plus tard transformé en retour à la ligne)
+	# - La première (s/// sans g) mesure sans mention est celle de la marge générale
+	# - Repérage de ce qui n'aboutit pas à une formule "<var>=(<val>)", suppression de l'affectation (une ligne sans affectation sortira comme une erreur)
+	# - Suppression des parenthèses
+	echo ";$*;" | sed -E \
+		-e 's#[0-9]+([.,][0-9]+)?#(&)#g' \
+		-e 's#(\([^)]*),#\1.#g' \
+		-e 's# *[+] *(\([^)]*\)) *reliure *#;dimMargeReliure=\1;#g' \
+		-e 's#;#;;#g' \
+		-e 's#; *(\([^);]*\)) *;#;dimMarge=\1;#' \
+		-e 's#;[^=;]*=([^(])#;\1#g' \
+		-e 's#;[^=;]*=([^;]*[)][^;])#;\1#g' \
+		-e 's#;[^=;]*=([(][^;]*[^);]);#;\1;#g' \
+		-e 's#[()]##g' \
+	| tr ';' '\012' | grep -v ^$
+}
+
+lireMarge()
+{
+	case "$*" in
+		*[=\(\)]*) err "Les marges ne doivent pas inclure d'=, (, ou ): $*" ; return 1 ;;
+	esac
+	local expr="`exprMarges "$@"`"
+	if echo "$expr" | grep -q '^[^=]*$'
+	then
+		err "Marge: expression(s) non comprise(s):"
+		echo "$expr" | grep '^[^=]*$' | while read l ; do err "  $l" ; done
+		return 1
+	fi
+	
+	eval "$expr"
+}
+
+calculerDimensions()
+{
+	# Paramètres par défaut.
+	
+	dimPageL=21.001
+	dimPageH=29.7
+	dimMarge=1.199
+	dimMargeReliure=0
+	dimGouttiere=0.3
+	
+	# Paramètres supplémentaires.
+	
+	local source NR
+	for source in $enTetes
+	do
+		case "$source" in
+			*.txt) true ;;
+			*) continue ;;
+		esac
+		
+		NR=0
+		while read var val
+		do
+			NR=`expr $NR + 1`
+			case "$var" in
+				"#"*) true ;;
+				page)
+					case "$val" in
+						A4|a4) dimPageL=21.001 ; dimPageH=29.7 ;;
+						A4p|a4p|A4h|a4h) dimPageL=29.7 ; dimPageH=21.001 ;;
+						A5|a5) dimPageL=14.85 ; dimPageH=21.001 ;;
+						A5p|a5p|A5h|a5h) dimPageL=21.001 ; dimPageH=14.85 ;;
+						*) err "$source:$NR: format de page '$val' non reconnu." ; return 1 ;;
+					esac
+					;;
+				marge)
+					lireMarge "$val"
+					;;
+				i|t|-) true ;;
+				*) err "$source:$NR: '$var' non reconnue." ; return 1 ;;
+			esac
+		done < "$source"
+	done
+	
+	# Calculs.
+	
+}
+
 imagesEnTete()
 {
 	local n source image type style x y largeur taille texte
@@ -200,12 +285,24 @@ done
 
 remplace()
 {
+	local dimMargeI="`LC_ALL=C awk "BEGIN{ print $dimMarge + $dimMargeReliure; }"`"
 	sed \
+		-e "s|@pageH@|$dimPageH|g" \
+		-e "s|@pageL@|$dimPageL|g" \
+		-e "s|@margeH@|$dimMarge|g" \
+		-e "s|@margeB@|$dimMarge|g" \
+		-e "s|@margeG@|$dimMarge|g" \
+		-e "s|@margeD@|$dimMarge|g" \
+		-e "s|@margeI@|$dimMargeI|g" \
+		-e "s|@margeE@|$dimMarge|g" \
+		-e "s|@gouttiere@|$dimGouttiere|g" \
 		-e "s|@imagesEnTete@|`imagesEnTete`|" \
 		-e "s|@taillePolice@|$taillePolice|g" \
 		-e "s|@taillePolice120@|`expr "$taillePolice" \* 120 \
 		| sed -e 's/\(..\)$/.\1/'`|g"
 }
+	
+	calculerDimensions
 
 	mkdir -p "$tmpat/Pictures"
 	
