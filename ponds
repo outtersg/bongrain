@@ -198,8 +198,19 @@ imagesEnTete()
 
 imager()
 {
-	local largeur=
-	[ "x$1" = x-l ] && shift && largeur="$1" && shift || true
+	local largeur= ppp=300
+	if [ "x$1" = x-l ]
+	then
+		shift
+		largeur="$1"
+		shift
+		case "$largeur" in
+			*ppp)
+				ppp="`echo "$largeur" | sed -e 's/ppp$//'`"
+				largeur=
+				;;
+		esac
+	fi
 	local style="$1"
 	local image="$2"
 	local ancrage='text:anchor-type="page" text:anchor-page-number="1"'
@@ -208,8 +219,8 @@ imager()
 		do
 		if [ -z "$largeur" ]
 		then
-			l="`expr $l \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
-			h="`expr $h \* 2540 / 300 | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
+			l="`expr $l \* 2540 / $ppp | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
+			h="`expr $h \* 2540 / $ppp | sed -e 's/^/000/' -e 's/0*\(\([^0].*\)*.\)\(...\)$/\1.\3/'`"
 		else
 			h="`LC_ALL=C awk < /dev/null 'END{ print('$h' * '$largeur' / '$l'); }'`"
 			l="$largeur"
