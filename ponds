@@ -15,6 +15,11 @@ CHANTS=.
 
 PATH=/home/gui/bin:/Users/gui/bin:$PATH
 
+err()
+{
+	echo "[31m# $*[0m" >&2
+}
+
 # Tout sur une ligne, ou bien couplets présentés comme il se doit?
 if false
 then
