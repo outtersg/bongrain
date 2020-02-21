@@ -161,8 +161,8 @@
 		<text:linenumbering-configuration text:number-lines="false" text:offset="0.499cm" style:num-format="1" text:number-position="left" text:increment="5"/>
 	</office:styles>
 	<office:automatic-styles>
-		<style:page-layout style:name="Mpm1">
-			<style:page-layout-properties fo:page-width="21.001cm" fo:page-height="29.7cm" style:num-format="1" style:print-orientation="portrait" fo:margin-top="1.199cm" fo:margin-bottom="1.199cm" fo:margin-left="1.199cm" fo:margin-right="1.199cm" style:shadow="none" style:writing-mode="lr-tb" style:footnote-max-height="0cm">
+		<style:page-layout style:name="Mpm1" style:page-usage="mirrored">
+			<style:page-layout-properties fo:page-width="@pageL@cm" fo:page-height="@pageH@cm" style:num-format="1" style:print-orientation="portrait" fo:margin-top="@margeH@cm" fo:margin-bottom="@margeB@cm" fo:margin-left="@margeI@cm" fo:margin-right="@margeE@cm" style:shadow="none" style:writing-mode="lr-tb" style:footnote-max-height="0cm">
 				<style:columns fo:column-count="1" fo:column-gap="0cm">
 					<style:column-sep style:width="0.009cm" style:color="#000000" style:height="100%" style:style="solid"/>
 				</style:columns>

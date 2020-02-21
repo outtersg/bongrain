@@ -40,7 +40,7 @@
 		</style:style>
 		<style:style style:name="Sect2" style:family="section">
 			<style:section-properties text:dont-balance-text-columns="false" style:editable="false">
-				<style:columns fo:column-count="2" fo:column-gap="0.3cm">
+				<style:columns fo:column-count="2" fo:column-gap="@gouttiere@cm">
 					<style:column style:rel-width="32767*" fo:start-indent="0cm" fo:end-indent="0.15cm"/>
 					<style:column style:rel-width="32768*" fo:start-indent="0.15cm" fo:end-indent="0cm"/>
 				</style:columns>
