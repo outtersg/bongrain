@@ -9,6 +9,8 @@
 # Pour une feuille d'une soirée:
 # for t in 10 12 ; do ( cd ~/Documents/Partagés/Adoration/Chants ; ./ponds -m simple -o /tmp/feuille$t.odt -t $t chant1.txt chant2.txt chantn.txt && /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/ /tmp/feuille$t.odt && scp /tmp/feuille$t.pdf l:/tmp/tmp/feuille$t.pdf ) ; done
 
+set -e
+
 DelieS() { local s2 ; while [ -h "$s" ] ; do s2="`readlink "$s"`" ; case "$s2" in [^/]*) s2="`dirname "$s"`/$s2" ;; esac ; s="$s2" ; done ; } ; SCRIPTS() { local s="`command -v "$0"`" ; [ -x "$s" -o ! -x "$0" ] || s="$0" ; case "$s" in */bin/*sh) case "`basename "$s"`" in *.*) true ;; *sh) s="$1" ;; esac ;; esac ; case "$s" in [^/]*) s="`pwd`/$s" ;; esac ; DelieS ; s="`dirname "$s"`" ; DelieS ; SCRIPTS="$s" ; } ; SCRIPTS
 
 CHANTS=.
