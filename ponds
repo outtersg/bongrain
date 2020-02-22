@@ -149,6 +149,7 @@ calculerDimensions()
 				marge)
 					lireMarge "$val"
 					;;
+				police) police="$val" ;;
 				i|t|-) true ;;
 				*) err "$source:$NR: '$var' non reconnue." ; return 1 ;;
 			esac
@@ -257,6 +258,7 @@ sortie=/tmp/tmp/f.odt
 dest=
 	tmpat=patron # Mot-valise de tmp et patron: où l'on entrepose ce qui une fois zippé deviendra le .odt.
 modele=complet
+	police="Lato"
 taillePolice=8
 	enTetes=
 while [ $# -gt 0 ]
@@ -299,6 +301,11 @@ done
 remplace()
 {
 	local dimMargeI="`LC_ALL=C awk "BEGIN{ print $dimMarge + $dimMargeReliure; }"`"
+	# N.B.: le mécanisme de police par défaut (police voulue, police par défaut) ne marche pas.
+	local polices="$police"
+	case "$police" in
+		*,*) police="`echo "$police" | cut -d , -f 1`" ;;
+	esac
 	sed \
 		-e "s|@pageH@|$dimPageH|g" \
 		-e "s|@pageL@|$dimPageL|g" \
@@ -310,6 +317,8 @@ remplace()
 		-e "s|@margeE@|$dimMarge|g" \
 		-e "s|@gouttiere@|$dimGouttiere|g" \
 		-e "s|@imagesEnTete@|`imagesEnTete`|" \
+		-e "s|@polices@|$polices|g" \
+		-e "s|@police@|$police|g" \
 		-e "s|@taillePolice@|$taillePolice|g" \
 		-e "s|@taillePolice120@|`expr "$taillePolice" \* 120 \
 		| sed -e 's/\(..\)$/.\1/'`|g"
