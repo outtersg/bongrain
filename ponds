@@ -115,6 +115,8 @@ lireMarge()
 
 calculerDimensions()
 {
+	local v
+	
 	# Paramètres par défaut.
 	
 	dimPageL=21.001
@@ -151,7 +153,16 @@ calculerDimensions()
 				marge)
 					lireMarge "$val"
 					;;
-				police) police="$val" ;;
+				police)
+					police=
+					for v in $val
+					do
+						case "$v" in
+							*[^0-9]*) [ -z "$police" ] || police="$police " ; police="$police $v" ;;
+							[0-9]*) taillePolice=$v ;;
+						esac
+					done
+					;;
 				i|t|-) true ;;
 				*) err "$source:$NR: '$var' non reconnue." ; return 1 ;;
 			esac
