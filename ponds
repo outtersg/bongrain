@@ -161,7 +161,7 @@ calculerDimensions()
 
 imagesEnTete()
 {
-	local n source image type style x y largeur taille texte
+	local n source image type style x y largeur taille texte numImage
 	for source in $enTetes
 	do
 		case "$source" in
@@ -169,6 +169,7 @@ imagesEnTete()
 			*) continue ;;
 		esac
 	n=0
+		numImage=0
 		cat "$source" | grep -v '^#' | while read type reste
 		do
 			case "$type" in
@@ -227,7 +228,8 @@ imager()
 		fi
 		cp "$image" "$tmpat/Pictures/"
 			image="`basename "$image"`"
-		echo '<draw:frame draw:style-name="'"$style"'" draw:name="'"$image"'" '"$ancrage"' svg:x="'"$x"'cm" svg:y="'"$y"'cm" svg:width="'"$l"'cm" svg:height="'"$h"'cm" draw:z-index="27"><draw:image xlink:href="Pictures/'"$image"'" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>';
+		numImage="`expr $numImage + 1`"
+		echo '<draw:frame draw:style-name="'"$style"'" draw:name="'"$image"'" '"$ancrage"' svg:x="'"$x"'cm" svg:y="'"$y"'cm" svg:width="'"$l"'cm" svg:height="'"$h"'cm" draw:z-index="'"$numImage"'"><draw:image xlink:href="Pictures/'"$image"'" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>';
 			manifester "Pictures/$image"
 			done
 }
