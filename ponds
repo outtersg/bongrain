@@ -263,6 +263,20 @@ reste&&/manifest:full-path="/&&!/manifest:full-path="Pictures\//&&!/manifest:ful
 '
 }
 
+ziper()
+{
+	if command -v 7za > /dev/null 2>&1
+	then
+		7za a -tzip "$@"
+	elif command -v zip > /dev/null 2>&1
+	then
+		zip -r "$@"
+	else
+		echo "# Impossible de ziper." >&2
+		exit 1
+	fi
+}
+
 pondre()
 {
 > /tmp/tdm
@@ -401,7 +415,7 @@ remplace()
 	remplace < "$SCRIPTS/patronbis/styles.xml" > "$tmpat/styles.xml"
 
 	case "$sortie" in /*) true ;; *) sortie="`pwd`/$sortie" ;; esac
-	( cd "$tmpat" && rm -f "$sortie" && find . -type f -name ".bak.*" -exec rm {} \; && 7za a -tzip "$sortie" . ) > /dev/null 2>&1
+	( cd "$tmpat" && rm -f "$sortie" && find . -type f -name ".bak.*" -exec rm {} \; && ziper "$sortie" . ) > /dev/null 2>&1
 echo http://outters.eu/gui/tmp/f.odt
 
 [ -z "$dest" ] || cat /tmp/tdm > "$dest"
