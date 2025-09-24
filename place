@@ -33,6 +33,7 @@ fais()
 		-e 's/  *$//' \
 		-e "s/´/'/g" \
 		-e "s/’/'/g" \
+		-e 's#^\([1-9][0-9]*\)[ .-/]*#\1. #' \
 		-e 's/Eglise/Église/g' \
 		-e 's/Ecoute/Écoute/g' \
 		-e 's/Eternel/Éternel/g' \
