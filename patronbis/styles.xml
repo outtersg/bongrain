@@ -37,7 +37,7 @@
 			<!-- #si numtexte
 			<style:paragraph-properties fo:margin-left="0cm" fo:text-indent="0cm" style:auto-text-indent="false" style:page-number="auto">
 				<style:tab-stops>
-					<style:tab-stop style:position="9.15cm" style:type="right"/>
+					<style:tab-stop style:position="9.15cm" style:type="right" style:leader-style="solid" style:leader-text="·"/>
 				</style:tab-stops>
 			</style:paragraph-properties>
 			     #si numtexte -->
@@ -109,6 +109,9 @@
 		<style:style style:name="Numbering_20_Symbols" style:display-name="Numbering Symbols" style:family="text"/>
 		<style:style style:name="Filigrane" style:family="text">
 			<style:text-properties fo:color="#bfbfbf"/>
+		</style:style>
+		<style:style style:name="Pointillés" style:family="text">
+			<style:text-properties fo:color="#bfbfbf" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
 		</style:style>
 							
 		<text:outline-style style:name="Outline">

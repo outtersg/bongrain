@@ -333,7 +333,10 @@ remplace()
 	case "$police" in
 		*,*) police="`echo "$police" | cut -d , -f 1`" ;;
 	esac
-	local var val options
+	local var val options ttCartouche=120
+	case "$numtexte" in
+		?*) ttCartouche=90 ;; # Si les numéros sont du texte, on réduit leur contenu pour en caser un paquet.
+	esac
 	for var in numtexte
 	do
 		eval 'val="'"$var"'"'
@@ -347,6 +350,7 @@ remplace()
 		options="$options$var"
 	done
 	options="$options\\)"
+	ttCartouche="`expr "$taillePolice" \* $ttCartouche | sed -e 's/\(..\)$/.\1/'`"
 	sed \
 		-e "s|@pageH@|$dimPageH|g" \
 		-e "s|@pageL@|$dimPageL|g" \
@@ -361,8 +365,7 @@ remplace()
 		-e "s|@polices@|$polices|g" \
 		-e "s|@police@|$police|g" \
 		-e "s|@taillePolice@|$taillePolice|g" \
-		-e "s|@taillePolice120@|`expr "$taillePolice" \* 120 \
-		| sed -e 's/\(..\)$/.\1/'`|g" \
+		-e "s|@taillePolice120@|$ttCartouche|g" \
 		-e "/#si $options/d"
 }
 	
@@ -437,6 +440,22 @@ remplace()
 			END { finirPara(); aff(1); }
 			FNR == 1 {
 				aff(1);
+				# Si on a un élément visuel pour porter le numéro, qui se trouve être textuel, on le déporte à droite.
+				if("'$numtexte'" && match($0, /<draw:frame[ >].*<\/draw:frame>/) == 1) # Repérage.
+				{
+					# Deux possibilités pour coller le cartouche à droite:
+					# - soit ancré au paragraphe, alignement à droite
+					#   avantage: reste sur la première ligne
+					# - soit ancré comme caractère, précédé d une tabulation
+					#   avantage: on peut coller des pointillés sur la tabulation
+					#   inconvénients: sur un titre multi-lignes, se colle à la denière plutôt qu à la première (donc pour le laisser sur la première il faut l insérer de force via une tabulation positionnée manuellement, le cartouche, puis retour à la ligne pour la fin du titre).
+					#                  Bon on peut choisir de faire une ligne avec juste tabulation, cartouche, et commencer le titre en-dessous. Mais on perd une ligne. Mais ça aère.
+					#                  en outre les caractères de tabulation potentiels (U+2015, U+23AF), en Lato, laissent un interstice empêchant la ligne continue. Mais sinon le · (U+00B7) est pas mal, du moment qu on le met en non gras, et entouré d espaces.
+					$0 = substr($0, RSTART + RLENGTH)"<text:span text:style-name=\"Pointillés\"><text:s/><text:tab/><text:s/></text:span>"substr($0, RSTART, RLENGTH);
+					sub(/^<text:s[^>]*>/, ""); # Les espaces entre le cartouche et le titre, du temps où le cartouche était à gauche, sautent.
+if(0){
+}
+				}
 				mem = mem"<text:h text:style-name=\"Titre\" text:outline-level=\"5\">"$0"</text:h>";
 				apresvide = 1;
 				next;
