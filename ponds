@@ -65,7 +65,7 @@ numero()
 {
 	# Constitué grâce à http://forum.ubuntu-fr.org/viewtopic.php?id=996191
 	case "$1" in
-		?) nAff="&#x202f;$1&#x202f;" ;;
+		?|*[a-zA-Z]*) nAff="&#x202f;$1&#x202f;" ;;
 		*) nAff="$1" ;;
 	esac
 	printf "<draw:frame svg:y=\"-`LC_ALL=C awk "BEGIN{print $taillePolice / 20}"`cm\" text:anchor-type=\"as-char\" draw:z-index=\"1\" draw:style-name=\"gr1\"><draw:text-box draw:corner-radius=\"`LC_ALL=C awk "BEGIN{print $taillePolice / 40}"`cm\"><text:p><text:span text:style-name=\"TitreContenu\"><text:s/>$nAff<text:s/></text:span></text:p></draw:text-box></draw:frame><text:s text:c=\"2\"/>" 
