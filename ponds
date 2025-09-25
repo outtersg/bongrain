@@ -333,6 +333,20 @@ remplace()
 	case "$police" in
 		*,*) police="`echo "$police" | cut -d , -f 1`" ;;
 	esac
+	local var val options
+	for var in numtexte
+	do
+		eval 'val="'"$var"'"'
+		case "$options" in
+			"") options='\(' ;;
+			*) options="$options\\|" ;;
+		esac
+		case "$val" in
+			"") options="$options! *" ;;
+		esac
+		options="$options$var"
+	done
+	options="$options\\)"
 	sed \
 		-e "s|@pageH@|$dimPageH|g" \
 		-e "s|@pageL@|$dimPageL|g" \
@@ -348,7 +362,8 @@ remplace()
 		-e "s|@police@|$police|g" \
 		-e "s|@taillePolice@|$taillePolice|g" \
 		-e "s|@taillePolice120@|`expr "$taillePolice" \* 120 \
-		| sed -e 's/\(..\)$/.\1/'`|g"
+		| sed -e 's/\(..\)$/.\1/'`|g" \
+		-e "/#si $options/d"
 }
 	
 	calculerDimensions
