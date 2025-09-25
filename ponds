@@ -435,7 +435,12 @@ remplace()
 		 	BEGIN { ORS="\n"; numIndication = 1; nIndications = split("'"$indications"'", indications, /  */); gererIndications(-1); }
 			/^$/ { finirPara(); apresvide = 1; next; }
 			END { finirPara(); aff(1); }
-			{ if(FNR == 1) { aff(1); mem = mem"<text:h text:style-name=\"Titre\" text:outline-level=\"5\">"$0"</text:h>"; apresvide = 1; next; } }
+			FNR == 1 {
+				aff(1);
+				mem = mem"<text:h text:style-name=\"Titre\" text:outline-level=\"5\">"$0"</text:h>";
+				apresvide = 1;
+				next;
+			}
 			{ avant = 1; }
 			/^R\. / { aff(); gererIndications("R"); mem = mem"<text:p text:style-name=\"Refrain@@@"refrain"\">"$0; apresvide = 0; next; }
 			{ if(apresvide) { aff(); gererIndications(substr($0, 1, index($0, ".") - 1)); mem = mem"<text:p text:style-name=\"Couplet@@@"couplet"\">"$0; apresvide = 0; next; } }
