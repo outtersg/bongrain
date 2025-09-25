@@ -359,7 +359,8 @@ remplace()
 (
 	nSection=0
 	remplace < "$avant"
-	cat /tmp/tdm | sed -e 's/ *#.*//' -e '/^$/d' | while read cetN i indications
+	IFS="	" # Tabulation obligatoire comme séparateur de colonnes, pour permettre notamment les numéros à espaces (ex.: "prière universelle"); rassurez-vous, le sed ci-dessous accepte encore le format <numéro><espace><fichier> à la place de <numéro><tabulation><fichier>.
+	cat /tmp/tdm | sed -e 's/ *#.*//' -e '/^$/d' -e 's/^\([1-9][0-9]*\) /\1	/' | while read cetN i indications
 	do
 		# Séparation style Supplément.
 		if [ "x$cetN" = "x+" ]
