@@ -372,6 +372,8 @@ remplace()
 	
 	( cd "$SCRIPTS/patronbis" && tar cf - layout-cache manifest.rdf meta.xml mimetype settings.xml Configurations2 META-INF Thumbnails ) | ( cd "$tmpat" && tar xf - )
 (
+	# Les numéros sont textuels (ex.: "chant d'entrée", etc.) plutôt que numériques si notre table des matières comporte une majorité de numéros commençant par une lettre:
+	numtexte="`awk '/^[1-9]/{--t}/^[a-zA-Z]/{++t}END{if(t>0)print 1}' < /tmp/tdm`"
 	nSection=0
 	remplace < "$avant"
 	IFS="	" # Tabulation obligatoire comme séparateur de colonnes, pour permettre notamment les numéros à espaces (ex.: "prière universelle"); rassurez-vous, le sed ci-dessous accepte encore le format <numéro><espace><fichier> à la place de <numéro><tabulation><fichier>.

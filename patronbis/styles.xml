@@ -34,6 +34,13 @@
 		<style:style style:name="Standard" style:family="paragraph" style:class="text"/>
 		<!-- Étrange… Si ce Titre est déclaré après le Heading, ou si son display-name est à "Titre", le text-indent n'est plus pris en compte. -->
 		<style:style style:name="Titre" style:display-name="Titre chant" style:family="paragraph" style:parent-style-name="Couplet" style:next-style-name="Couplet" style:default-outline-level="5" style:class="text">
+			<!-- #si numtexte
+			<style:paragraph-properties fo:margin-left="0cm" fo:text-indent="0cm" style:auto-text-indent="false" style:page-number="auto">
+				<style:tab-stops>
+					<style:tab-stop style:position="9.15cm" style:type="right"/>
+				</style:tab-stops>
+			</style:paragraph-properties>
+			     #si numtexte -->
 			<style:text-properties fo:font-size="120%" fo:font-weight="bold"/>
 		</style:style>
 		<style:style style:name="Heading" style:family="paragraph" style:parent-style-name="Standard" style:next-style-name="Text_20_body" style:class="text">
