@@ -370,7 +370,8 @@ remplace()
 		fi
 		# Chant normal.
 		indications="`echo "$indications" | tr '[' '\012' | grep "^$taillePolice]" | sed -e 's/[^]]*]//'`"
-		( numero $cetN ; espace < "$CHANTS/$i" ) | $prefiltre | awk '
+		[ -f "$i" -o ! -f "$CHANTS/$i" ] || i="$CHANTS/$i"
+		( numero $cetN ; espace < "$i" ) | $prefiltre | awk '
 			function gererIndications(numPara)
 			{
 				while(numIndication <= nIndications)
