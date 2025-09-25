@@ -372,7 +372,21 @@ remplace()
 		# Chant normal.
 		indications="`echo "$indications" | tr '[' '\012' | grep "^$taillePolice]" | sed -e 's/[^]]*]//'`"
 		[ -f "$i" -o ! -f "$CHANTS/$i" ] || i="$CHANTS/$i"
-		( numero $cetN ; espace < "$i" ) | $prefiltre | awk '
+		{
+			numero $cetN
+			{
+				# Un chant peut aussi être passé directement dans la table des matières, soit juste un titre, soit un refrain.
+				if [ -f "$i" ]
+				then
+					cat "$i"
+				else
+					case "$i" in
+						"R. "*) echo ; echo ; echo "$i" ;;
+						*) echo "$i" ;;
+					esac
+				fi
+			} | espace
+		} | $prefiltre | awk '
 			function gererIndications(numPara)
 			{
 				while(numIndication <= nIndications)
