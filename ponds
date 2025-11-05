@@ -268,9 +268,10 @@ ziper()
 {
 	if command -v 7za > /dev/null 2>&1
 	then
-		7za a -tzip "$@"
+		7za a -tzip -x'!.*' "$@"
 	elif command -v zip > /dev/null 2>&1
 	then
+		if zip --help 2> /dev/null | grep -qe '-x.*xclude' ; then set -- -x'.*' "$@" ; fi
 		zip -r "$@"
 	else
 		echo "# Impossible de ziper." >&2
