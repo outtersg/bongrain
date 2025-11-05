@@ -474,7 +474,13 @@ if(0){
 	remplace < "$SCRIPTS/patronbis/styles.xml" > "$tmpat/styles.xml"
 
 	case "$sortie" in /*) true ;; *) sortie="`pwd`/$sortie" ;; esac
-	( cd "$tmpat" && rm -f "$sortie" && find . -type f -name ".bak.*" -exec rm {} \; && ziper "$sortie" . ) > /dev/null 2>&1
+	(
+		set -e
+		cd "$tmpat"
+		rm -f "$sortie"
+		find . -type f -name ".bak.*" -exec rm {} \;
+		ziper "$sortie"
+	) > /dev/null 2>&1
 echo http://outters.eu/gui/tmp/f.odt
 
 [ -z "$dest" ] || cat /tmp/tdm > "$dest"
