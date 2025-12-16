@@ -266,6 +266,15 @@ reste&&/manifest:full-path="/&&!/manifest:full-path="Pictures\//&&!/manifest:ful
 
 ziper()
 {
+	# 3.3 MIME Media Type dans https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html:
+	# "mimetype should be first file in the archive, and uncompressed" (pour que file et consorts le trouvent toujours en position 38 du fichier)
+	# Concrètement le fichier doit avoir le début suivant (paquet magique):
+	# PK<16 octets><taillecontenu:27000000><taillecontenu:27000000><tailletitre:0800><taillemétadonnées:0000>mimetypeapplication/vnd.oasis.opendocument.text
+	# zip et 7zip 16.02 savent tous deux entreposer en Stored, mais:
+	# - zip -r mimetype [^m]* intercale des métadonnées, qui "coupent" entre mimetype et application/etc.
+	# - 7zip ignore l'ordre de la ligne de commande, et force l'ordre alphabétique
+	# - 7zip mimetype ; 7zip [^m]* réécrit l'archive complète, donc donne le même résultat.
+	# Solution: avoir un 7za modifié, qui force les fichiers nommés mimetype à apparaître en premier (cf. https://github.com/outtersg/guili/blob/master/7zip, fonction opendocument()).
 	if command -v 7za > /dev/null 2>&1
 	then
 		7za a -tzip -x'!.*' "$@"
@@ -479,6 +488,10 @@ if(0){
 		cd "$tmpat"
 		rm -f "$sortie"
 		find . -type f -name ".bak.*" -exec rm {} \;
+		# Le bloc suivant pour tenter d'éviter de prendre mimetype en même temps que tout le monde, mais cf. le commentaire en début de ziper(): même 7za se fiche d'une compression en deux fois, le fichier mimetype finira au beau milieu des autres fichiers.
+		#if [ -f .mimetype ] ; then mv .mimetype mimetype ; fi
+		#ziper -0 "$sortie" mimetype
+		#mv mimetype .mimetype
 		ziper "$sortie"
 	) > /dev/null 2>&1
 echo http://outters.eu/gui/tmp/f.odt
