@@ -28,6 +28,14 @@ chercher()
 	ugrep -i --pretty=always "$rech" *.txt 2> /dev/null | LESSCHARDEF=8bcccbcc18b. less
 }
 
+# Voir la Pré-Table des matières.
+vpt()
+{
+	local tdm="$1"
+	case "$tdm" in /*) true ;; *) tdm="$PWD/$tdm" ;; esac
+	( cd ~/partage/Adoration/Chants && . shrc.sh && set | grep Messe && vi `sed < "$tdm" -E -e '/^#  *([^ ]*\.txt) .*/!d' -e 's//\1/'` )
+}
+
 # Inspecter plusieurs chants
 # Voir leur contenu, après en avoir copié chemin et titre qui pourront être collés dans une pré-table des matières (liste de chants candidats).
 v()
