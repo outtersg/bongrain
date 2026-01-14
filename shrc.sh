@@ -8,6 +8,26 @@ copier()
 ;;
 esac
 
+# Cherche parmi les .txt ceux contenant certains termes.
+# Utilisation:
+#   chercher [xxx.tdm] <regex>
+#     xxx.tdm
+#       Si précisé, les résultats sont collés comme commentaires à la fin du fichier .tdm (Table Des Matières) mentionné, sous forme "# .txt Titre: " (les : pour permettre ensuite de commenter le choix du chant).
+#     <regex>
+#       Expression régulière à retrouver dans les fichiers.
+chercher()
+{
+	# À FAIRE: on pourrait carrément mettre les extraits trouvés dans la .tdm.
+	local tdm chant
+	case "$1" in *.tdm) tdm="$1" ; shift ;; esac
+	local rech="$1"
+	[ -z "$tdm" ] || ugrep -il "$rech" *.txt 2> /dev/null | while read chant
+	do
+		echo "#   $chant `head -1 < "$chant"`: "
+	done | sort >> "$tdm"
+	ugrep -i --pretty=always "$rech" *.txt 2> /dev/null | LESSCHARDEF=8bcccbcc18b. less
+}
+
 # Inspecter plusieurs chants
 # Voir leur contenu, après en avoir copié chemin et titre qui pourront être collés dans une pré-table des matières (liste de chants candidats).
 v()
