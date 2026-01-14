@@ -44,5 +44,5 @@ v()
 html2tdm()
 {
 	# pandoc -f markdown -t html # https://www.reddit.com/r/linuxquestions/comments/gzoxy5/markdown_to_clipboard_rich_text_wwayland/
-	sed -E -e '/^#  *[^ ]*\.txt /!d' -e 's//- **/' -e 's/:|$/**/' < 2026-01-08.tdm | pandoc -f markdown -t html | copier -t text/html
+	sed -E -e '/^#  *[^ ]*\.txt /!d' -e 's//- **/' -e 's/:|$/**/' < "$1" | pandoc -f markdown -t html | copier -t text/html
 }
