@@ -15,7 +15,7 @@ var Choix =
 	},
 	clic: function(ev)
 	{
-		for(var e = ev.target; e.nodeName != 'UL'; e = e.parent)
+		for(var e = ev.target; e.nodeName != 'UL'; e = e.parentElement)
 			if(e.dataset && e.dataset.code)
 			{
 				/* À FAIRE: cliquer sur la CàC doit refléter la coche sur data-note (peut-être un onchange sur les CàC, pour prendre en compte tous les moyens de cocher: clic, espace si sélectionné par tabulation, etc.). */
