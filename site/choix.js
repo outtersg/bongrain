@@ -12,6 +12,8 @@ var Choix =
 		var i, l = Choix.liste.children;
 		for(i = -1; ++i < l.length;)
 			Choix.num2code[l[i].dataset.code] = i;
+		
+		Choix.courir(0);
 	},
 	clic: function(ev)
 	{
