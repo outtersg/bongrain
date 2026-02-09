@@ -18,6 +18,12 @@
 	width: 90%;
 }
 
+#choix ul
+{
+	list-style-type: none;
+	padding: 0;
+}
+
 #choix li
 {
 	white-space: nowrap;
