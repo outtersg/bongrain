@@ -18,11 +18,12 @@ var Choix =
 	clic: function(ev)
 	{
 		for(var e = ev.target; e.nodeName != 'UL'; e = e.parentElement)
-			if(e.dataset && e.dataset.code)
+			if((e.dataset && e.dataset.code) || e.id == 'telech')
 			{
 				/* À FAIRE: cliquer sur la CàC doit refléter la coche sur data-note (peut-être un onchange sur les CàC, pour prendre en compte tous les moyens de cocher: clic, espace si sélectionné par tabulation, etc.). */
 				Choix.courir(e);
-				Choix.courir(Choix.courant);
+				if(e.id == 'telech')
+					Choix.telecharger();
 				// Pas de preventDefault: si on clique la case à cocher, ou si on veut sélectionner le titre, on laisse faire.
 				break;
 			}
@@ -36,7 +37,13 @@ var Choix =
 			num = Choix.num2code[e.dataset.code];
 		
 		if(num == Choix.courant) return;
-		if(num < 0 || num >= Choix.liste.children.length) return;
+		if(num < 0) return;
+		if(num >= Choix.liste.children.length)
+		{
+			// Si on se trouve sur le dernier élément qui est le lien de téléchargement, en avant.
+			if(Choix.courant == num - 1) Choix.telecharger();
+			return;
+		}
 		
 		var ancien = Choix.liste.children[Choix.courant];
 		if(ancien)
@@ -50,6 +57,38 @@ var Choix =
 		var e = Choix.liste.children[Choix.courant];
 		e.dataset.note = 0 + note;
 		e.querySelector('input').checked = e.dataset.note > 0;
+	},
+	telecharger: function()
+	{
+		/* À FAIRE: intégrer en commentaire le filtre utilisé */
+		
+		var lignes = Array.from(document.querySelectorAll('#choix li :checked')).map(function(x)
+		{
+			var p = x.closest('li');
+			return '# '+p.dataset.code+' '+p.innerText+"\n";
+		});
+		/* À FAIRE: trier par note décroissante, en tri stable (= si même note, conserver l'ordre alphabétique) */
+		lignes = lignes.join('');
+		
+		/* Téléchargement en base64:
+		 * https://greasyfork.org/en/scripts/411199-download-table-as-csv/code
+		 * https://stackoverflow.com/questions/29280134/creating-a-greasemonkey-button-to-output-certain-data-to-a-page
+		 * https://stackoverflow.com/questions/17836273/export-javascript-data-to-csv-file-without-server-interaction
+		 * https://stackoverflow.com/questions/2951149/save-file-using-greasemonkey
+		 * Voir aussi la possibilité (dans l'une de ces pages) de passer par un Blob collé sur window.URL.
+		 */
+		var formu = document.getElementsByTagName('form')[0];
+		var a = document.createElement('a');
+		a.href = 'data:attachment/text,'+encodeURIComponent(lignes);
+		a.download = new Date().toISOString().substr(0, 10)+'.tdm';
+		formu.appendChild(a);
+		a.click();
+		formu.removeChild(a);
+		
+		/* Comment faire pour avoir l'équivalent de l'attribut download?
+		formu.action = 'data:attachment/text,'+encodeURIComponent("coucou\nsalut\n");
+		formu.submit();
+		*/
 	},
 	touche: function(ev)
 	{
@@ -68,6 +107,7 @@ var Choix =
 			case '1':
 			case '0':
 				/* À FAIRE: espace pour 5, - pour 0 */
+				if(Choix.courant < Choix.liste.children.length - 1)
 				Choix.noter(ev.key);
 				/* À FAIRE: ne pas passer au suivant si une option (case à cocher) "rester sur le même en notant" est cochée */
 				Choix.courir(Choix.courant + 1);

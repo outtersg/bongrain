@@ -29,6 +29,13 @@
 	white-space: nowrap;
 }
 
+#telech, #telech.courant
+{
+	background: #3f7f3f;
+	color: white;
+	cursor: pointer;
+}
+
 .courant
 {
 	background: #bfffdf;

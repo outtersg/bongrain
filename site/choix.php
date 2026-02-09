@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div id="choix">
-	<form>
+	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
 		<input type="text" name="filtre" id="filtre"></input>
 		<ul>
 			<?php
@@ -44,6 +44,7 @@
 					$chant = new Chant($chant);
 					echo '<li data-code="'.$chant->code.'"><input type="checkbox" name="'.$chant->code.'"/>'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</li>'."\n";
 				}
+				echo '<li id="telech">Télécharger</li>'."\n";
 			?>
 		</ul>
 	</form>
