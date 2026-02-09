@@ -1,0 +1,46 @@
+/* https://pepelsbey.dev/articles/two-columns/ */
+
+#choix, #chant
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+#choix
+{
+	border-right: 3px solid grey;
+	width: 15%;
+	overflow: auto;
+}
+
+#choix #filtre
+{
+	width: 90%;
+}
+
+#choix li
+{
+	white-space: nowrap;
+}
+
+.courant
+{
+	background: #bfffdf;
+};
+
+#choix.filtre li
+{
+	display: none;
+}
+
+#choix.filtre li.sel
+{
+	display: list-item;
+}
+
+#chant
+{
+	margin-left: 15%;
+	background: yellow;
+	height: 100px;
+}
