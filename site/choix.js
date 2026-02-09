@@ -18,6 +18,7 @@ var Choix =
 		for(var e = ev.target; e.nodeName != 'UL'; e = e.parent)
 			if(e.dataset && e.dataset.code)
 			{
+				/* À FAIRE: cliquer sur la CàC doit refléter la coche sur data-note (peut-être un onchange sur les CàC, pour prendre en compte tous les moyens de cocher: clic, espace si sélectionné par tabulation, etc.). */
 				Choix.courir(e);
 				Choix.courir(Choix.courant);
 				// Pas de preventDefault: si on clique la case à cocher, ou si on veut sélectionner le titre, on laisse faire.
@@ -42,6 +43,12 @@ var Choix =
 		e.classList.add('courant');
 		e.scrollIntoView({ block: 'center', container: 'nearest' }); // À FAIRE: Edge ne l'a supporté que très tard.
 	},
+	noter: function(note)
+	{
+		var e = Choix.liste.children[Choix.courant];
+		e.dataset.note = 0 + note;
+		e.querySelector('input').checked = e.dataset.note > 0;
+	},
 	touche: function(ev)
 	{
 		switch(ev.key)
@@ -51,6 +58,17 @@ var Choix =
 				Choix.courir(Choix.courant + (ev.key == 'ArrowDown' ? 1 : -1));
 				ev.preventDefault(true);
 				ev.stopPropagation();
+				break;
+			case '5':
+			case '4':
+			case '3':
+			case '2':
+			case '1':
+			case '0':
+				/* À FAIRE: espace pour 5, - pour 0 */
+				Choix.noter(ev.key);
+				/* À FAIRE: ne pas passer au suivant si une option (case à cocher) "rester sur le même en notant" est cochée */
+				Choix.courir(Choix.courant + 1);
 				break;
 		}
 	}
