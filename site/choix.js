@@ -40,6 +40,7 @@ var Choix =
 			ancien.classList.remove('courant');
 		Choix.courant = num;
 		e.classList.add('courant');
+		e.scrollIntoView({ block: 'center', container: 'nearest' }); // À FAIRE: Edge ne l'a supporté que très tard.
 	},
 	touche: function(ev)
 	{
