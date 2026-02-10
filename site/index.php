@@ -10,7 +10,7 @@ function faire($req)
 	if(!preg_match('#^(?<racine>'.$uriMoi.')(?<uri>.*)#', $uriDem, $r))
 		preg_match('#^(?<racine>'.dirname($uriMoi).')/*(?<uri>.*)#', $uriDem, $r);
 	$r += parse_url($r['uri']);
-	if(!preg_match('/^(choix)$/', $r['path']))
+	if(!preg_match('/^(choix|filtre)$/', $r['path']))
 		$r['path'] = 'choix';
 	include $r['path'].'.php';
 }
