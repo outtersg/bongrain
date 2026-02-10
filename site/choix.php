@@ -9,7 +9,7 @@
 <body>
 	<div id="choix">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
-		<input type="text" name="filtre" id="filtre"></input>
+		<input type="text" name="filtre" id="filtre" autofocus="autofocus"></input>
 		<ul>
 			<?php
 				error_reporting(-1);
