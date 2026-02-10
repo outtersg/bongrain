@@ -93,7 +93,7 @@ var Choix =
 	noter: function(note)
 	{
 		var e = Choix.liste.children[Choix.courant];
-		e.dataset.note = 0 + note;
+		e.dataset.note = parseInt(note);
 		e.querySelector('input').checked = e.dataset.note > 0;
 	},
 	telecharger: function()
