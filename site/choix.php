@@ -12,8 +12,6 @@
 		<input type="text" name="filtre" id="filtre" autofocus="autofocus"></input>
 		<ul>
 			<?php
-				error_reporting(-1);
-				ini_set('display_errors', 1);
 				require_once 'Chant.php';
 				foreach(Chant::TousFichiers() as $chant)
 				{
