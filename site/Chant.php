@@ -2,13 +2,15 @@
 
 class Chant
 {
+	public static $Dossier = 'chants';
+	
 	public $chemin;
 	public $code;
 	public $titre;
 	
 	public static function TousFichiers()
 	{
-		return glob('../*.txt');
+		return glob(Chant::$Dossier.'/*.txt');
 	}
 	
 	public static function FichiersCorrespondant($rech)
@@ -19,7 +21,7 @@ class Chant
 		if(!count($rech)) return [];
 		
 		$rech = implode('|', $rech);
-		exec("egrep -il '$rech' ../*.txt", $rés);
+		exec("egrep -il '$rech' ".Chant::$Dossier."/*.txt", $rés);
 		
 		return $rés;
 	}
