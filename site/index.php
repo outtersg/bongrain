@@ -1,5 +1,17 @@
 <?php
 
-include 'choix.php';
+function faire($req)
+{
+	$uriDem = $req['REQUEST_URI'];
+	$uriMoi = $req['DOCUMENT_URI'];
+	if(!preg_match('#^(?<racine>'.$uriMoi.')(?<uri>.*)#', $uriDem, $r))
+		preg_match('#^(?<racine>'.dirname($uriMoi).')/*(?<uri>.*)#', $uriDem, $r);
+	$r += parse_url($r['uri']);
+	if(!preg_match('/^(choix)$/', $r['path']))
+		$r['path'] = 'choix';
+	include $r['path'].'.php';
+}
+
+faire($_SERVER);
 
 ?>
