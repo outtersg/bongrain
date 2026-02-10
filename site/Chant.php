@@ -11,6 +11,19 @@ class Chant
 		return glob('../*.txt');
 	}
 	
+	public static function FichiersCorrespondant($rech)
+	{
+		foreach($rech as $clé => $val)
+			if(!preg_match('#^\w{3,}$#u', $val))
+				unset($rech[$clé]);
+		if(!count($rech)) return [];
+		
+		$rech = implode('|', $rech);
+		exec("egrep -il '$rech' ../*.txt", $rés);
+		
+		return $rés;
+	}
+	
 	public function __construct($chemin)
 	{
 		$this->chemin = $chemin;
