@@ -8,12 +8,34 @@ var Choix =
 		Choix.liste = document.querySelector('#choix ul');
 		Choix.liste.addEventListener('click', Choix.clic);
 		document.body.addEventListener('keydown', Choix.touche);
+		document.getElementById('filtre').addEventListener('keyup', Choix.saisieFiltre); /* À FAIRE: le copier-coller est-il détecté? */
 		
 		var i, l = Choix.liste.children;
 		for(i = -1; ++i < l.length;)
 			Choix.num2code[l[i].dataset.code] = i;
 		
 		Choix.courir(0);
+	},
+	saisieFiltre: function(ev)
+	{
+		/* À FAIRE: avec quelques ms de délai, qu'en cas de saisie rapide on ne balance pas 3 requêtes d'affilée, avec surtout le risque que le résultat de la 2ème arrive après celui de la 3ème et donc défiltre. */
+		/* À FAIRE: un indicateur visuel de "en travail… terminé". */
+		Choix.req = window.setTimeout(Choix.changementFiltre, 0);
+	},
+	changementFiltre: function()
+	{
+		var filtre = document.getElementById('filtre').value;
+		/* À FAIRE: uniquement si changement depuis la dernière fois, une fois écartés les ensembles non significatifs (mots de moins de 3 lettres). */
+		filtre = filtre.replace(' ', '|');
+		
+		var r = new XMLHttpRequest();
+		r.addEventListener('load', Choix.nouvelEnsemble);
+		r.open('GET', 'filtre?q='+encodeURIComponent(filtre)); /* À FAIRE: déterminer le préfixe de façon certaine. */
+		r.send();
+	},
+	nouvelEnsemble: function(res)
+	{
+		/* À FAIRE */
 	},
 	clic: function(ev)
 	{
