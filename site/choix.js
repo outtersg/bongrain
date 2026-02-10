@@ -5,6 +5,9 @@ var Choix =
 	courant: -1,
 	brancher: function()
 	{
+		/* À FAIRE: sur fermeture de fenêtre, enregistrer les parties dynamiques (filtre, coches, notes) dans un ou plusieurs cookies, pour pouvoir continuer la prochaine fois.
+		            permettre de nommer le biscuit ("adoration du tant de telle année", garder les x derniers) */
+		/* À FAIRE: ou alors, sur telecharger() comme sur noter(), modifier l'URL */
 		Choix.liste = document.querySelector('#choix ul');
 		Choix.liste.addEventListener('click', Choix.clic);
 		document.body.addEventListener('keydown', Choix.touche);
