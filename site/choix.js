@@ -102,12 +102,29 @@ var Choix =
 		Choix.courant = num;
 		e.classList.add('courant');
 		e.scrollIntoView({ block: 'center', container: 'nearest' }); // À FAIRE: Edge ne l'a supporté que très tard.
+		
+		/* À FAIRE: un cache de 10 chants */
+		var r = new XMLHttpRequest();
+		r.addEventListener('load', function(res) { if(res.target.readyState == 4) Choix.afficherChant(res.target.response); });
+		r.open('GET', 'chants/'+e.dataset.code); /* À FAIRE: décoder en dur le chants/. La classe Chant devrait pouvoir nous fournir ça. */
+		r.send();
 	},
 	noter: function(note)
 	{
 		var e = Choix.liste.children[Choix.courant];
 		e.dataset.note = parseInt(note);
 		e.querySelector('input').checked = e.dataset.note > 0;
+	},
+	afficherChant: function(contenu)
+	{
+		document.getElementById('chant').innerHTML =
+			contenu
+				.replaceAll('&', '&amp;')
+				.replaceAll('<', '&lt;')
+				.replaceAll('>', '&gt;')
+				.replaceAll('\n', '<br/>');
+		/* À FAIRE: titre, refrain en gras. */
+		/* À FAIRE: sélection. */
 	},
 	telecharger: function()
 	{
