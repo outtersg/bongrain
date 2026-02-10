@@ -29,13 +29,29 @@ var Choix =
 		filtre = filtre.replace(' ', '|');
 		
 		var r = new XMLHttpRequest();
+		r.responseType = 'json';
 		r.addEventListener('load', Choix.nouvelEnsemble);
 		r.open('GET', 'filtre?q='+encodeURIComponent(filtre)); /* À FAIRE: déterminer le préfixe de façon certaine. */
 		r.send();
 	},
 	nouvelEnsemble: function(res)
 	{
-		/* À FAIRE */
+		switch(res.target.readyState)
+		{
+			case 4:
+				var filtrage = document.getElementById('choix');
+				res = res.target.response;
+				if(res.length)
+				{
+					Choix.liste.querySelectorAll('.sel').forEach(function(x) { x.classList.remove('sel'); });
+					filtrage.classList.add('filtre');
+					for(var i = res.length; --i >= 0;)
+						Choix.liste.children[Choix.num2code[res[i]]].classList.add('sel');
+				}
+				else
+					filtrage.classList.remove('filtre');
+				break;
+		}
 	},
 	clic: function(ev)
 	{
