@@ -48,7 +48,8 @@
 	display: none;
 }
 
-#choix.filtre li.sel
+#choix.filtre li.sel,
+#choix.filtre li#telech
 {
 	display: list-item;
 }
