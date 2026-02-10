@@ -149,6 +149,7 @@ var Choix =
 				Choix.noter(ev.key);
 				/* À FAIRE: ne pas passer au suivant si une option (case à cocher) "rester sur le même en notant" est cochée */
 				Choix.courir(Choix.courant + 1);
+				ev.preventDefault(true); // Pas de chiffre dans le champ de recherche.
 				break;
 		}
 	}
