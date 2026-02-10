@@ -14,32 +14,8 @@
 			<?php
 				error_reporting(-1);
 				ini_set('display_errors', 1);
-				class Chant
-				{
-					public $chemin;
-					public $code;
-					public $titre;
-					
-					public function __construct($chemin)
-					{
-						$this->chemin = $chemin;
-						$this->code = htmlspecialchars(basename($chemin));
-						$this->_lireInfos();
-					}
-					
-					protected function _lireInfos()
-					{
-						$f = fopen($this->chemin, 'r');
-						while(($l = fgets($f)) !== false && ($l = trim($l)) !== '')
-							if($l[0] != '#')
-							{
-								$this->titre = $l;
-								break;
-							}
-						fclose($f);
-					}
-				}
-				foreach(glob('../*.txt') as $chant)
+				require_once 'Chant.php';
+				foreach(Chant::TousFichiers() as $chant)
 				{
 					$chant = new Chant($chant);
 					echo '<li data-code="'.$chant->code.'"><input type="checkbox" name="'.$chant->code.'"/>'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</li>'."\n";
