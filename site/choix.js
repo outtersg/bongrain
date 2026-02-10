@@ -147,7 +147,7 @@ var Choix =
 		{
 			case 'ArrowDown':
 			case 'ArrowUp':
-				Choix.courir(Choix.courant + (ev.key == 'ArrowDown' ? 1 : -1));
+				Choix.courir(Choix.courant, ev.key == 'ArrowDown' ? 1 : -1);
 				ev.preventDefault(true);
 				ev.stopPropagation();
 				break;
@@ -161,7 +161,7 @@ var Choix =
 				if(Choix.courant < Choix.liste.children.length - 1)
 				Choix.noter(ev.key);
 				/* À FAIRE: ne pas passer au suivant si une option (case à cocher) "rester sur le même en notant" est cochée */
-				Choix.courir(Choix.courant + 1);
+				Choix.courir(Choix.courant, 1);
 				ev.preventDefault(true); // Pas de chiffre dans le champ de recherche.
 				break;
 		}
