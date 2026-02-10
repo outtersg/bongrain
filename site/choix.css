@@ -53,6 +53,11 @@
 	display: list-item;
 }
 
+li[data-note="0"]
+{
+	text-decoration: line-through;
+}
+
 /*- Chant --------------------------------------------------------------------*/
 
 #chant
