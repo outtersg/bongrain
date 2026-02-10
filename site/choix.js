@@ -74,13 +74,18 @@ var Choix =
 				break;
 			}
 	},
-	courir: function(e)
+	courir: function(e, sens)
 	{
 		var num;
 		if(typeof e == 'number')
 			e = Choix.liste.children[num = e];
 		else
 			num = Choix.num2code[e.dataset.code];
+		if(typeof sens == 'number')
+		{
+			var sousens = document.getElementById('choix').classList.contains('filtre');
+			while((e = Choix.liste.children[num += sens]) && (sousens && !e.classList.contains('sel') && e.id != 'telech')) {}
+		}
 		
 		if(num == Choix.courant) return;
 		if(num < 0) return;
