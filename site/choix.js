@@ -29,7 +29,7 @@ var Choix =
 	{
 		var filtre = document.getElementById('filtre').value;
 		/* À FAIRE: uniquement si changement depuis la dernière fois, une fois écartés les ensembles non significatifs (mots de moins de 3 lettres). */
-		filtre = filtre.replace(' ', '|');
+		filtre = filtre.replaceAll(' ', '|');
 		
 		var r = new XMLHttpRequest();
 		r.responseType = 'json';
