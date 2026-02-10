@@ -40,13 +40,21 @@ var Choix =
 		{
 			case 4:
 				var filtrage = document.getElementById('choix');
+				var plusProche = Choix.liste.children.length;
 				res = res.target.response;
 				if(res.length)
 				{
 					Choix.liste.querySelectorAll('.sel').forEach(function(x) { x.classList.remove('sel'); });
 					filtrage.classList.add('filtre');
 					for(var i = res.length; --i >= 0;)
-						Choix.liste.children[Choix.num2code[res[i]]].classList.add('sel');
+					{
+						var num;
+						Choix.liste.children[num = Choix.num2code[res[i]]].classList.add('sel');
+						// Si l'actuel courant finit masqué, on cherche le chant encore affiché le plus proche de lui.
+						if(Math.abs(num - Choix.courant) < Math.abs(plusProche - Choix.courant))
+							plusProche = num;
+					}
+					Choix.courir(plusProche);
 				}
 				else
 					filtrage.classList.remove('filtre');
