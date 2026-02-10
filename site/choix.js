@@ -125,8 +125,10 @@ var Choix =
 				.replaceAll('&', '&amp;')
 				.replaceAll('<', '&lt;')
 				.replaceAll('>', '&gt;')
-				.replaceAll('\n', '<br/>');
-		/* À FAIRE: titre, refrain en gras. */
+				.replaceAll('\n', '<br/>\n')
+				.replaceAll(/^((?:#.*\n)*)([^#<][^<]*)(?:<br\/>\n)*/g, '$1<h3>$2</h3>\n')
+				.replaceAll(/(^|\n<br\/>\n|<\/h[0-9]>\n)(R\..*(?:\n[^<].*)*)/g, '$1<strong>$2</strong>')
+		;
 		/* À FAIRE: sélection. */
 	},
 	telecharger: function()
