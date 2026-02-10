@@ -1,15 +1,23 @@
 /* https://pepelsbey.dev/articles/two-columns/ */
 
+body
+{
+	height: 100%;
+	margin: 0;
+}
+
 #choix, #chant
 {
 	display: inline-block;
 	vertical-align: top;
+	height: 100%;
 }
 
 #choix
 {
-	border-right: 3px solid grey;
+	/*border-right: 3px solid grey;*/
 	width: 15%;
+	height: 100vh;
 	overflow: auto;
 }
 
@@ -63,7 +71,7 @@ li[data-note="0"]
 
 #chant
 {
-	margin-left: 15%;
-	background: yellow;
-	height: 100px;
+	width: 84%;
+	height: 100vh;
+	overflow: auto;
 }
