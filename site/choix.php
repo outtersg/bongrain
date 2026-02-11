@@ -9,7 +9,7 @@
 <body>
 	<div id="choix">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
-		<input type="text" name="filtre" id="filtre" autofocus="autofocus"></input>
+		<input type="text" name="filtre" id="filtre" autofocus="autofocus" value="<?php if(isset($_GET['q'])) echo strtr($_GET['q'], '|', ' '); ?>"></input>
 		<ul>
 			<?php
 				require_once 'Chant.php';
@@ -29,5 +29,6 @@
 </body>
 <script type="text/javascript">
 	Choix.brancher();
+	<?php if(isset($_GET['q'])) { ?>Choix.saisieFiltre(); <?php } ?>
 </script>
 </html>
