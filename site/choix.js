@@ -31,6 +31,8 @@ var Choix =
 		/* À FAIRE: uniquement si changement depuis la dernière fois, une fois écartés les ensembles non significatifs (mots de moins de 3 lettres). */
 		filtre = filtre.replaceAll(' ', '|');
 		
+		Choix.surlignerChant();
+		
 		var r = new XMLHttpRequest();
 		r.responseType = 'json';
 		r.addEventListener('load', Choix.nouvelEnsemble);
@@ -130,7 +132,16 @@ var Choix =
 				.replaceAll(/^((?:#.*\n)*)([^#<][^<]*)(?:<br\/>\n)*/g, '$1<h3>$2</h3>\n')
 				.replaceAll(/(^|\n<br\/>\n|<\/h[0-9]>\n)(R\..*(?:\n[^<].*)*)/g, '$1<strong>$2</strong>')
 		;
-		/* À FAIRE: sélection. */
+		Choix.surlignerChant();
+	},
+	surlignerChant: function()
+	{
+		var filtre = document.getElementById('filtre').value;
+		if(!filtre.trim()) return;
+		var affChant = document.getElementById('chant');
+		var contenu = affChant.innerHTML.replaceAll(/<\/?span[^>]*>/g, '');
+		contenu = contenu.replaceAll(new RegExp('('+filtre.replaceAll(' ', '|')+')', 'g'), '<span class="surl">$1</span>');
+		affChant.innerHTML = contenu;
 	},
 	telecharger: function()
 	{

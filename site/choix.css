@@ -75,3 +75,8 @@ li[data-note="0"]
 	height: 100vh;
 	overflow: auto;
 }
+
+#chant .surl
+{
+	background: #9f9fff;
+};
