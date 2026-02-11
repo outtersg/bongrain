@@ -2,12 +2,13 @@ var Choix =
 {
 	liste: undefined,
 	num2code: {},
+	num2cle: {},
 	courant: -1,
+	notes: {},
 	brancher: function()
 	{
 		/* À FAIRE: sur fermeture de fenêtre, enregistrer les parties dynamiques (filtre, coches, notes) dans un ou plusieurs cookies, pour pouvoir continuer la prochaine fois.
 		            permettre de nommer le biscuit ("adoration du tant de telle année", garder les x derniers) */
-		/* À FAIRE: ou alors, sur noter(), modifier l'URL */
 		Choix.liste = document.querySelector('#choix ul');
 		Choix.liste.addEventListener('click', Choix.clic);
 		document.body.addEventListener('keydown', Choix.touche);
@@ -15,7 +16,10 @@ var Choix =
 		
 		var i, l = Choix.liste.children;
 		for(i = -1; ++i < l.length;)
+		{
 			Choix.num2code[l[i].dataset.code] = i;
+			Choix.num2cle[l[i].dataset.cle] = i;
+		}
 		
 		Choix.courir(0);
 	},
@@ -25,20 +29,40 @@ var Choix =
 		/* À FAIRE: un indicateur visuel de "en travail… terminé". */
 		Choix.req = window.setTimeout(Choix.changementFiltre, 0);
 	},
-	changementFiltre: function()
+	/**
+	 * Habiller l'URL.
+	 * Colle les filtres etc. dans l'URL.
+	 * Renvoie le filtre transformé en regex.
+	 */
+	hurler: function()
 	{
+		var params = [];
+		
 		var filtre = document.getElementById('filtre').value;
 		/* À FAIRE: uniquement si changement depuis la dernière fois, une fois écartés les ensembles non significatifs (mots de moins de 3 lettres). */
 		filtre = filtre.replaceAll(' ', '|');
+		if(filtre)
+			params.push('q='+encodeURIComponent(filtre));
 		
+		for(var i = 6; --i >= 0;)
+			if(Choix.notes[i])
+				params.push('n['+i+']='+Choix.notes[i].join(','));
+		
+		history.replaceState({}, '', params.length ? '?'+params.join('&') : '');
+		
+		return filtre;
+	},
+	changementFiltre: function()
+	{
 		Choix.surlignerChant();
+		
+		var filtre = Choix.hurler();
 		
 		var r = new XMLHttpRequest();
 		r.responseType = 'json';
 		r.addEventListener('load', Choix.nouvelEnsemble);
 		r.open('GET', 'filtre?q='+encodeURIComponent(filtre)); /* À FAIRE: déterminer le préfixe de façon certaine. */
 		r.send();
-		history.replaceState({}, '', '?q='+encodeURIComponent(filtre));
 	},
 	nouvelEnsemble: function(res)
 	{
@@ -117,9 +141,43 @@ var Choix =
 	},
 	noter: function(note)
 	{
+		note = parseInt(note);
+		
 		var e = Choix.liste.children[Choix.courant];
-		e.dataset.note = parseInt(note);
+		var i;
+		
+		if(typeof e.dataset.note != 'undefined')
+		{
+			if(e.dataset.note == note) return;
+			if(Choix.notes[e.dataset.note] && (i = Choix.notes[e.dataset.note].indexOf(e.dataset.cle)) >= 0)
+				Choix.notes[e.dataset.note].splice(i, 1);
+		}
+		
+		e.dataset.note = note;
 		e.querySelector('input').checked = e.dataset.note > 0;
+		
+		if(!Choix.notes[note])
+			Choix.notes[note] = [];
+		Choix.notes[note].push(e.dataset.cle);
+		
+		Choix.hurler();
+	},
+	/**
+	 * Note un ensemble de clés, via un paramètre { 4: [ clé1, clé2 ], 5: [ clé3 ] }
+	 */
+	noters: function(notes)
+	{
+		var e;
+		Choix.notes = notes; /* À FAIRE: combiner notes à Choix.notes plutôt que l'écraser. Pour le moment non nécessaire puisque noters n'est invoqué que sur page vierge, mais on pourrait souhaiter. */
+		/* À FAIRE: si c'est le cas il faudra aussi invoquer Choix.hurler(). */
+		for(var note = -1; ++note <= 5;)
+			if(notes[note])
+				for(var i = notes[note].length; --i >= 0;)
+				{
+					e = Choix.liste.children[Choix.num2cle[notes[note][i]]];
+					e.dataset.note = note;
+					e.querySelector('input').checked = e.dataset.note > 0;
+				}
 	},
 	afficherChant: function(contenu)
 	{
