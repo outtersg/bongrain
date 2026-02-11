@@ -27,5 +27,7 @@
 	<div id="chant">
 	</div>
 </body>
-<script type="text/javascript">Choix.brancher();</script>
+<script type="text/javascript">
+	Choix.brancher();
+</script>
 </html>
