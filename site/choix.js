@@ -212,6 +212,7 @@ var Choix =
 		});
 		/* À FAIRE: trier par note décroissante, en tri stable (= si même note, conserver l'ordre alphabétique) */
 		lignes = lignes.join('');
+		lignes = '# Table des matières ébauchée via:\n# '+decodeURIComponent(document.location)+'\n'+lignes;
 		
 		/* Téléchargement en base64:
 		 * https://greasyfork.org/en/scripts/411199-download-table-as-csv/code
