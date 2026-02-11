@@ -17,7 +17,7 @@
 				{
 					/* À FAIRE: distinguer code de chemin. Le code peut être les initiales du titre du chant (avec un suffixe numérique en cas de plusieurs). Cela permettra des codes plus courts (mais toujours intelligibles, et avec peu de risques d'écrasement sauf à insérer un Jamais Vraiment Vécu Dignement avant Je Veux Voir Dieu…) qui pourront être passés plus nombreux en paramètres GET. */
 					$chant = new Chant($chant);
-					echo '<li data-code="'.$chant->code.'"><input type="checkbox" name="'.$chant->code.'"/>'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</li>'."\n";
+					echo '<li data-code="'.$chant->code.'" data-cle="'.$chant->clé.'"><input type="checkbox" name="'.$chant->code.'"/>'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</li>'."\n";
 				}
 				echo '<li id="telech">Télécharger</li>'."\n";
 			?>

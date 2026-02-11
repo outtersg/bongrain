@@ -3,9 +3,11 @@
 class Chant
 {
 	public static $Dossier = 'chants';
+	public static $Clés = [];
 	
 	public $chemin;
 	public $code;
+	public $clé; // Le code permet de retrouver le fichier (sans reparcourir l'ensemble). La clé est plus courte mais à sens unique (on déduit la clé du fichier, non l'inverse).
 	public $titre;
 	
 	public static function TousFichiers()
@@ -26,6 +28,22 @@ class Chant
 		return $rés;
 	}
 	
+	public static function Clé($chant)
+	{
+		if(!isset(Chant::$_UConv))
+			Chant::$_UConv = Transliterator::create('Latin-ASCII');
+		$clé =
+			$chant->titre
+			? strtolower(preg_replace('/(\w)\w*\W*/', '\1', Chant::$_UConv->transliterate($chant->titre)))
+			: basename($chant->chemin)
+		;
+		for($suffixe = 1; isset(Chant::$Clés[$essaiClé = $clé.($suffixe > 1 ? $suffixe : '')]); ++$suffixe)
+			if(Chant::$Clés[$essaiClé] == $chant->chemin)
+				return $essaiClé;
+		Chant::$Clés[$essaiClé] = $chant->chemin;
+		return $essaiClé;
+	}
+	
 	public function __construct($chemin)
 	{
 		$this->chemin = $chemin;
@@ -42,8 +60,11 @@ class Chant
 				$this->titre = $l;
 				break;
 			}
+		$this->clé = Chant::Clé($this);
 		fclose($f);
 	}
+	
+	protected static $_UConv;
 }
 
 ?>
