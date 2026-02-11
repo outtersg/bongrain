@@ -194,11 +194,11 @@ var Choix =
 	},
 	surlignerChant: function()
 	{
-		var filtre = document.getElementById('filtre').value;
-		if(!filtre.trim()) return;
+		var filtre = document.getElementById('filtre').value.trim();
+		if(!filtre) return;
 		var affChant = document.getElementById('chant');
 		var contenu = affChant.innerHTML.replaceAll(/<\/?span[^>]*>/g, '');
-		contenu = contenu.replaceAll(new RegExp('('+filtre.replaceAll(' ', '|')+')', 'g'), '<span class="surl">$1</span>');
+		contenu = contenu.replaceAll(new RegExp('('+filtre.replaceAll(/ +/g, '|')+')', 'g'), '<span class="surl">$1</span>');
 		affChant.innerHTML = contenu;
 	},
 	telecharger: function()
