@@ -156,7 +156,11 @@ var Choix =
 		{
 			if(e.dataset.note == note) return;
 			if(Choix.notes[e.dataset.note] && (i = Choix.notes[e.dataset.note].indexOf(e.dataset.cle)) >= 0)
+			{
 				Choix.notes[e.dataset.note].splice(i, 1);
+				if(Choix.notes[e.dataset.note].length == 0)
+					delete Choix.notes[e.dataset.note];
+			}
 		}
 		
 		if(typeof note == 'undefined')
