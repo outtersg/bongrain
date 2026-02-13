@@ -146,6 +146,7 @@ var Choix =
 	},
 	noter: function(note)
 	{
+		if(typeof note != 'undefined')
 		note = parseInt(note);
 		
 		var e = Choix.liste.children[Choix.courant];
@@ -158,12 +159,18 @@ var Choix =
 				Choix.notes[e.dataset.note].splice(i, 1);
 		}
 		
+		if(typeof note == 'undefined')
+			delete e.dataset.note;
+		else
+		{
 		e.dataset.note = note;
-		e.querySelector('input').checked = e.dataset.note > 0;
 		
 		if(!Choix.notes[note])
 			Choix.notes[note] = [];
 		Choix.notes[note].push(e.dataset.cle);
+		}
+		
+		e.querySelector('input').checked = e.dataset.note > 0;
 		
 		Choix.hurler();
 	},
