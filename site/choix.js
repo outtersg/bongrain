@@ -11,6 +11,7 @@ var Choix =
 		            permettre de nommer le biscuit ("adoration du tant de telle année", garder les x derniers) */
 		Choix.liste = document.querySelector('#choix ul');
 		Choix.liste.addEventListener('click', Choix.clic);
+		Choix.liste.addEventListener('change', Choix.cac);
 		document.body.addEventListener('keydown', Choix.touche);
 		document.getElementById('filtre').addEventListener('keyup', Choix.saisieFiltre); /* À FAIRE: le copier-coller est-il détecté? */
 		
@@ -91,12 +92,16 @@ var Choix =
 				break;
 		}
 	},
+	cac: function(ev)
+	{
+		if(ev.target.type != 'checkbox') return;
+		Choix.noter(ev.target.checked ? 5 : undefined);
+	},
 	clic: function(ev)
 	{
 		for(var e = ev.target; e.nodeName != 'UL'; e = e.parentElement)
 			if((e.dataset && e.dataset.code) || e.id == 'telech')
 			{
-				/* À FAIRE: cliquer sur la CàC doit refléter la coche sur data-note (peut-être un onchange sur les CàC, pour prendre en compte tous les moyens de cocher: clic, espace si sélectionné par tabulation, etc.). */
 				Choix.courir(e);
 				if(e.id == 'telech')
 					Choix.telecharger();
