@@ -54,7 +54,7 @@ html2tdm()
 	local n2h="$HOME/src/scripts/texte/notes2html.awk"
 	if [ -f "$n2h" ]
 	then
-		sed -E -e '/^#  *[^ ]*\.txt /!d' -e 's//⋅ */' -e 's/:|$/*/' < "$1" | awk -f "$n2h" nu
+		sed -E -e '/^#  *[^ ]*\.txt /!d' -e 's//• */' -e 's/:|$/*/' < "$1" | awk -f "$n2h" nu
 	else
 	# pandoc -f markdown -t html # https://www.reddit.com/r/linuxquestions/comments/gzoxy5/markdown_to_clipboard_rich_text_wwayland/
 		sed -E -e '/^#  *[^ ]*\.txt /!d' -e 's//- **/' -e 's/:|$/**/' < "$1" | pandoc -f markdown -t html
