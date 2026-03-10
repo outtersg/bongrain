@@ -138,6 +138,10 @@ var Choix =
 		e.classList.add('courant');
 		e.scrollIntoView({ block: 'center', container: 'nearest' }); // À FAIRE: Edge ne l'a supporté que très tard.
 		
+		Choix.montrer(e);
+	},
+	montrer: function(e)
+	{
 		/* À FAIRE: un cache de 10 chants */
 		var r = new XMLHttpRequest();
 		r.addEventListener('load', function(res) { if(res.target.readyState == 4) Choix.afficherChant(res.target.response); });
