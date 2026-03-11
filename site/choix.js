@@ -222,7 +222,9 @@ var Choix =
 	},
 	surlignerChant: function()
 	{
-		var filtre = document.getElementById('filtre').value.trim();
+		var filtre = document.getElementById('filtre');
+		if(!filtre) return;
+		filtre = filtre.value.trim();
 		if(!filtre) return;
 		var affChant = document.getElementById('chant');
 		var contenu = affChant.innerHTML.replaceAll(/<\/?span[^>]*>/g, '');
