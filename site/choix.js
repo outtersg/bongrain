@@ -8,6 +8,7 @@ var Choix =
 	brancher: function()
 	{
 		// On retire les dialogues de l'arbre HTML dans lequel ils ont été créés par commodité, pour éviter les conflits d'id lorsqu'on les clonera.
+		(Choix.dialogueTerminer = document.querySelector('#dialogues #terminer')).remove();
 		
 		/* À FAIRE: sur fermeture de fenêtre, enregistrer les parties dynamiques (filtre, coches, notes) dans un ou plusieurs cookies, pour pouvoir continuer la prochaine fois.
 		            permettre de nommer le biscuit ("adoration du tant de telle année", garder les x derniers) */
@@ -233,7 +234,25 @@ var Choix =
 		var i, affChant = document.getElementById('chant');
 		for(i = affChant.childNodes.length; --i >= 0;) affChant.childNodes[i].remove();
 		
+		if(!Choix.dialogueTerminer)
 			Choix.telecharger();
+		else
+		{
+			var dialogue = Choix.dialogueTerminer.cloneNode(true);
+			dialogue.querySelector('#telecharger').addEventListener('click', function(ev)
+			{
+				Choix.telecharger();
+				ev.preventDefault(true);
+				ev.stopPropagation();
+			});
+			dialogue.querySelector('#organiser').addEventListener('click', function(ev)
+			{
+				var formu = document.forms[0];
+				// Normalement l'URL a été tenue à jour au fur et à mesure: on n'a plus qu'à lui demander d'aller à la page orga avec les mêmes paramètres.
+				formu.action = window.location.href.replace(/[^\/]*\?/, 'orga?modele='+formu.querySelector('[name=modele]').value+'&');
+			});
+			document.getElementById('chant').appendChild(dialogue);
+		}
 	},
 	telecharger: function()
 	{

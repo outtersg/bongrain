@@ -18,7 +18,7 @@
 					$chant = new Chant($chant);
 					echo '<li data-code="'.$chant->code.'" data-cle="'.$chant->clé.'"><input type="checkbox" name="'.$chant->code.'"/>'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</li>'."\n";
 				}
-				echo '<li id="telech">Télécharger</li>'."\n";
+				echo '<li id="telech">Télécharger / Organiser</li>'."\n";
 			?>
 		</ul>
 	</div>
@@ -26,6 +26,24 @@
 	</div>
 	</form>
 	<div id="dialogues" style="display: none;">
+		<?php
+			if(file_exists(Chant::$Dossier.'/modeles.json') && ($modèles = json_decode(file_get_contents(Chant::$Dossier.'/modeles.json'))))
+			{
+				?>
+					<div id="terminer">
+						<input type="submit" value="Télécharger la liste" id="telecharger"/>
+						<div>ou</div>
+						<input type="submit" value="Organiser les chants sur le modèle:" id="organiser"/>
+						<select name="modele">
+							<?php
+								foreach($modèles as $modèle => $contenu)
+									echo '<option value="'.htmlentities($modèle).'">'.htmlentities($modèle).'</option>'."\n";
+							?>
+						</select>
+					</div>
+				<?php
+			}
+		?>
 	</div>
 </body>
 <script type="text/javascript">
