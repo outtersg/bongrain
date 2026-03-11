@@ -45,7 +45,10 @@
 								<th><a href="'.$chant->chemin.'" data-code="'.$chant->code.'">'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</a></th>
 								<td>'.$note.'</td>'."\n";
 							foreach($modèle as $moment)
-								echo '<td></td>'."\n";
+							{
+								$classe = isset($chant->étiquettes[strtr($moment, [ ' ' => '' ])]) ? ' class="possible"' : '';
+								echo '<td'.$classe.'><input type="radio"/></td>'."\n";
+							}
 							echo '</tr>'."\n";
 						}
 			?>

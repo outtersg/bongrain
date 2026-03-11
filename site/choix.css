@@ -140,3 +140,18 @@ th.moment > div > span
 	border-bottom: 1px solid grey;
 	padding: 0.3em 0;
 }
+
+td > input
+{
+	display: none;
+}
+
+td.possible
+{
+	background: #9f9fff;
+}
+
+td.possible > input
+{
+	display: initial;
+}
