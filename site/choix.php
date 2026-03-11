@@ -25,6 +25,8 @@
 	<div id="chant">
 	</div>
 	</form>
+	<div id="dialogues" style="display: none;">
+	</div>
 </body>
 <script type="text/javascript">
 	Choix.brancher();

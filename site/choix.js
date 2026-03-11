@@ -7,6 +7,8 @@ var Choix =
 	notes: {},
 	brancher: function()
 	{
+		// On retire les dialogues de l'arbre HTML dans lequel ils ont été créés par commodité, pour éviter les conflits d'id lorsqu'on les clonera.
+		
 		/* À FAIRE: sur fermeture de fenêtre, enregistrer les parties dynamiques (filtre, coches, notes) dans un ou plusieurs cookies, pour pouvoir continuer la prochaine fois.
 		            permettre de nommer le biscuit ("adoration du tant de telle année", garder les x derniers) */
 		Choix.liste = document.querySelector('#choix ul');
