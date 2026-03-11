@@ -104,7 +104,7 @@ var Choix =
 			{
 				Choix.courir(e);
 				if(e.id == 'telech')
-					Choix.telecharger();
+					Choix.terminer();
 				// Pas de preventDefault: si on clique la case à cocher, ou si on veut sélectionner le titre, on laisse faire.
 				break;
 			}
@@ -127,7 +127,7 @@ var Choix =
 		if(num >= Choix.liste.children.length)
 		{
 			// Si on se trouve sur le dernier élément qui est le lien de téléchargement, en avant.
-			if(Choix.courant == num - 1) Choix.telecharger();
+			if(Choix.courant == num - 1) Choix.terminer();
 			return;
 		}
 		
@@ -142,6 +142,11 @@ var Choix =
 	},
 	montrer: function(e)
 	{
+		if(!e.dataset.code)
+		{
+			return;
+		}
+		
 		/* À FAIRE: un cache de 10 chants */
 		var r = new XMLHttpRequest();
 		r.addEventListener('load', function(res) { if(res.target.readyState == 4) Choix.afficherChant(res.target.response); });
@@ -220,6 +225,13 @@ var Choix =
 		var contenu = affChant.innerHTML.replaceAll(/<\/?span[^>]*>/g, '');
 		contenu = contenu.replaceAll(new RegExp('('+filtre.replaceAll(/ +/g, '|')+')', 'g'), '<span class="surl">$1</span>');
 		affChant.innerHTML = contenu;
+	},
+	terminer: function()
+	{
+		var i, affChant = document.getElementById('chant');
+		for(i = affChant.childNodes.length; --i >= 0;) affChant.childNodes[i].remove();
+		
+			Choix.telecharger();
 	},
 	telecharger: function()
 	{
