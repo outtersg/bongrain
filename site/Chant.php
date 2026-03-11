@@ -71,6 +71,14 @@ class Chant
 		fclose($f);
 	}
 	
+	/**
+	 * Transforme "acclamation de l'évangile" en "acclamationdelévangile" qui peut être collée derrière une étiquette #acclamationdelévangile.
+	 */
+	public static function ÉtiquettePour($libellé)
+	{
+		return preg_replace('/[[:punct:]\s]/', '', $libellé);
+	}
+	
 	protected static $_UConv;
 }
 
