@@ -7,8 +7,8 @@
 	<script src="choix.js"></script>
 </head>
 <body>
-	<div id="choix">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
+	<div id="choix">
 		<input type="text" name="filtre" id="filtre" autofocus="autofocus" value="<?php if(isset($_GET['q'])) echo strtr($_GET['q'], '|', ' '); ?>"></input>
 		<ul>
 			<?php
@@ -21,10 +21,10 @@
 				echo '<li id="telech">Télécharger</li>'."\n";
 			?>
 		</ul>
-	</form>
 	</div>
 	<div id="chant">
 	</div>
+	</form>
 </body>
 <script type="text/javascript">
 	Choix.brancher();
