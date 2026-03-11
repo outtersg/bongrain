@@ -9,6 +9,7 @@ class Chant
 	public $code;
 	public $clé; // Le code permet de retrouver le fichier (sans reparcourir l'ensemble). La clé est plus courte mais à sens unique (on déduit la clé du fichier, non l'inverse).
 	public $titre;
+	public $étiquettes = [];
 	
 	public static function TousFichiers()
 	{
@@ -57,9 +58,15 @@ class Chant
 		while(($l = fgets($f)) !== false && ($l = trim($l)) !== '')
 			if($l[0] != '#')
 			{
+				if(!isset($this->titre))
 				$this->titre = $l;
-				break;
 			}
+			else if(preg_match('/^#[^[:punct:]\s]+(\s+#[^[:punct:]\s]+)*$/', $l))
+			{
+				preg_match_all('/(?:^|\s)#([^[:punct:]\s]+)/', $l, $r);
+				$this->étiquettes = array_flip($r[1]);
+			}
+				
 		$this->clé = Chant::Clé($this);
 		fclose($f);
 	}
