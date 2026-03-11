@@ -46,7 +46,8 @@
 								<td>'.$note.'</td>'."\n";
 							foreach($modèle as $moment)
 							{
-								$classe = isset($chant->étiquettes[strtr($moment, [ ' ' => '' ])]) ? ' class="possible"' : '';
+								$courtMoment = Chant::ÉtiquettePour($moment);
+								$classe = isset($chant->étiquettes[$courtMoment]) ? ' class="possible"' : '';
 								echo '<td'.$classe.'><input type="radio"/></td>'."\n";
 							}
 							echo '</tr>'."\n";
