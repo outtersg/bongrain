@@ -27,6 +27,17 @@ var Choix =
 		
 		Choix.courir(0);
 	},
+	brancherRedim: function()
+	{
+		// https://dev.to/madsstoumann/accessible-resizable-table-columns-5eof
+		var choix = document.getElementById('choix');
+		var curseur = document.createElement('input');
+		curseur.id = 'redim';
+		curseur.max = 1000;
+		curseur.type = 'range';
+		curseur.addEventListener('input', function() { document.body.style.setProperty('--largeur-choix', curseur.valueAsNumber); });
+		choix.after(curseur);
+	},
 	saisieFiltre: function(ev)
 	{
 		/* À FAIRE: avec quelques ms de délai, qu'en cas de saisie rapide on ne balance pas 3 requêtes d'affilée, avec surtout le risque que le résultat de la 2ème arrive après celui de la 3ème et donc défiltre. */
