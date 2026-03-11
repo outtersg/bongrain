@@ -1,4 +1,10 @@
 <!doctype html>
+<?php
+	require_once 'Chant.php';
+	$modèle = $_GET['modele'];
+	$modèles = json_decode(file_get_contents(Chant::$Dossier.'/modeles.json'));
+	$modèle = $modèles->$modèle;
+?>
 <html lang="fr">
 <head>
 	<meta charset="utf-8">
@@ -6,16 +12,20 @@
 	<link rel="stylesheet" href="choix.css">
 	<script src="choix.js"></script>
 </head>
-<body>
+<body id="orga">
 	<div id="choix">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
 		<table>
 			<tr>
 				<th>Chant</th>
 				<th>Note</th>
+				<?php
+					// https://css-tricks.com/rotated-table-column-headers/
+					foreach($modèle as $moment)
+						echo '<th class="moment"><div><span>'.htmlentities($moment).'</span></div></th>'."\n";
+				?>
 			</tr>
 			<?php
-				require_once 'Chant.php';
 				// On charge l'intégralité des chants, car les clés (retrouvées dans l'URL) dépendent du nombre de chants se partageant les mêmes initiales, donc si on n'a pas chargé tous les chants on peut se retrouver avec des mécorrespondances.
 				$chants = [];
 				foreach(Chant::TousFichiers() as $chemin)
@@ -33,8 +43,10 @@
 							echo
 							'<tr>
 								<th><a href="'.$chant->chemin.'" data-code="'.$chant->code.'">'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</a></th>
-								<td>'.$note.'</td>
-							</tr>'."\n";
+								<td>'.$note.'</td>'."\n";
+							foreach($modèle as $moment)
+								echo '<td></td>'."\n";
+							echo '</tr>'."\n";
 						}
 			?>
 		</table>

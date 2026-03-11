@@ -8,6 +8,11 @@ body
 	--largeur-choix: 150;
 }
 
+body#orga
+{
+	--largeur-choix: 500;
+}
+
 #redim
 {
 	position: absolute;
@@ -90,4 +95,48 @@ li[data-note="0"]
 #chant .surl
 {
 	background: #9f9fff;
-};
+}
+
+/*- Table d'organisation -----------------------------------------------------*/
+
+table
+{
+	border-collapse: collapse;
+}
+
+th
+{
+	vertical-align: bottom;
+}
+
+th, td
+{
+	border: 1px solid grey;
+}
+
+th.moment
+{
+	height: 7em;
+	white-space: nowrap;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+th.moment > div
+{
+	transform-origin: 0 100%;
+	transform: translate(2em, 0) rotate(315deg);
+	height: 2em;
+	width: 2em;
+	line-height: 2em;
+}
+
+th.moment > div > span
+{
+	border-bottom: 1px solid grey;
+	padding: 0.3em 0;
+}
