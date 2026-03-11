@@ -54,5 +54,6 @@
 	{
 		e.addEventListener('click', montrer);
 	});
+	Choix.brancherRedim();
 </script>
 </html>
