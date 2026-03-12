@@ -15,7 +15,7 @@
 <body id="orga">
 	<div id="choix">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
-		<table>
+		<table id="liste">
 			<tr>
 				<th>Chant</th>
 				<th>Note</th>
@@ -41,7 +41,7 @@
 						{
 							$chant = $chants[$clé]; /* À FAIRE?: un lieu-tenant si on ne le retrouve pas? */
 							echo
-							'<tr>
+							'<tr data-code="'.$chant->code.'">
 								<th><a href="'.$chant->chemin.'" data-code="'.$chant->code.'">'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</a></th>
 								<td>'.$note.'</td>'."\n";
 							foreach($modèle as $moment)

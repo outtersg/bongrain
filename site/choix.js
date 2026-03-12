@@ -362,5 +362,15 @@ var Orga =
 {
 	brancher: function()
 	{
+		/* À FAIRE: ajouter un délai. Si la souris traverse l'écran, on affiche inutilement 25 chants pour les remplacer immédiatement après par le suivant. */
+		document.getElementById('liste').addEventListener('mouseover', function(ev)
+		{
+			var cible = ev.target.closest('table, tr[data-code]');
+			if(cible.dataset.code != Orga.soussouris)
+			{
+				Orga.soussouris = cible.dataset.code;
+				Choix.montrer(cible);
+			}
+		});
 	}
 };
