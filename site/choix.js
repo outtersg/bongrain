@@ -162,8 +162,14 @@ var Choix =
 		}
 		
 		/* À FAIRE: un cache de 10 chants */
-		var r = new XMLHttpRequest();
+		var r;
+		if((r = Choix._reqMontrer))
+			r.abort();
+		else
+		{
+			r = Choix._reqMontrer = new XMLHttpRequest();
 		r.addEventListener('load', function(res) { if(res.target.readyState == 4) Choix.afficherChant(res.target.response); });
+		}
 		r.open('GET', 'chants/'+e.dataset.code); /* À FAIRE: décoder en dur le chants/. La classe Chant devrait pouvoir nous fournir ça. */
 		r.send();
 	},
