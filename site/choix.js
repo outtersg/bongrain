@@ -357,3 +357,10 @@ var Choix =
 		}
 	}
 };
+
+var Orga =
+{
+	brancher: function()
+	{
+	}
+};

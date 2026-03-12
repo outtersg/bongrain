@@ -71,5 +71,6 @@
 		e.addEventListener('click', montrer);
 	});
 	Choix.brancherRedim();
+	Orga.brancher();
 </script>
 </html>
