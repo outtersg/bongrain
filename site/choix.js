@@ -161,7 +161,20 @@ var Choix =
 			return;
 		}
 		
-		/* À FAIRE: un cache de 10 chants */
+		var code = e.dataset.code;
+		
+		if(Choix._derniersMontres[code])
+		{
+			/* À FAIRE: le replacer en fin de _derniersMontresI: ce n'est plus de sitôt qu'il sortira. */
+			Choix.afficherChant(Choix._derniersMontres[code]);
+			return;
+		}
+		if(Choix._derniersMontresI[9])
+		{
+			delete Choix._derniersMontres[Choix._derniersMontresI[0]];
+			Choix._derniersMontresI.shift();
+		}
+		
 		var r;
 		if((r = Choix._reqMontrer))
 			r.abort();
@@ -171,12 +184,20 @@ var Choix =
 			r.addEventListener('load', function(res)
 			{
 				if(res.target.readyState == 4)
+				{
+					Choix._derniersMontresI.push(Choix._dernierCode);
+					Choix._derniersMontres[Choix._dernierCode] = res.target.response;
 					Choix.afficherChant(res.target.response);
+				}
 			});
 		}
+		
+		Choix._dernierCode = code;
 		r.open('GET', 'chants/'+e.dataset.code); /* À FAIRE: décoder en dur le chants/. La classe Chant devrait pouvoir nous fournir ça. */
 		r.send();
 	},
+	_derniersMontres: {},
+	_derniersMontresI: [],
 	noter: function(note)
 	{
 		if(typeof note != 'undefined')
