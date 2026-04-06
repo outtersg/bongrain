@@ -15,6 +15,7 @@
 <body id="orga">
 	<div id="choix">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
+		<input type="hidden" value="<?php echo htmlentities($_GET['q']); ?>" id="filtre" name="filtre"/>
 		<table id="liste">
 			<tr>
 				<th>Chant</th>
