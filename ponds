@@ -471,6 +471,7 @@ if(0){
 				apresvide = 1;
 				next;
 			}
+			/\([^()]*\)/ { gsub(/\([^()]*\)/, "<text:span text:style-name=\"Filigrane\">&</text:span>"); }
 			{ avant = 1; }
 			/^R\. / { aff(); gererIndications("R"); mem = mem"<text:p text:style-name=\"Refrain@@@"refrain"\">"$0; apresvide = 0; next; }
 			{ if(apresvide) { aff(); gererIndications(substr($0, 1, index($0, ".") - 1)); mem = mem"<text:p text:style-name=\"Couplet@@@"couplet"\">"$0; apresvide = 0; next; } }
