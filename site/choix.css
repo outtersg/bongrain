@@ -1,3 +1,10 @@
+/*- Mises en page ------------------------------------------------------------*/
+
+/* Modèles:
+ * - .gd: gauche - droit, 2 volets, un .g et un .d
+ */
+/* À FAIRE: en grid layout ça passerait pas mal. */
+
 /* https://pepelsbey.dev/articles/two-columns/ */
 
 body
@@ -22,20 +29,26 @@ body#orga
 	margin: 0;
 }
 
-#choix, #chant
+.g, .d
 {
 	display: inline-block;
 	vertical-align: top;
-	height: 100%;
-}
-
-#choix
-{
-	/*border-right: 3px solid grey;*/
-	width: calc(0.1% * var(--largeur-choix));
 	height: 100vh;
 	overflow: auto;
 }
+
+.g
+{
+	width: calc(0.1% * var(--largeur-choix));
+}
+
+.d
+{
+	width: calc(0.1% * (990 - var(--largeur-choix)));
+}
+
+
+/*- Choix --------------------------------------------------------------------*/
 
 #choix #filtre
 {
@@ -84,13 +97,6 @@ li[data-note="0"]
 }
 
 /*- Chant --------------------------------------------------------------------*/
-
-#chant
-{
-	width: calc(0.1% * (990 - var(--largeur-choix)));
-	height: 100vh;
-	overflow: auto;
-}
 
 #chant .surl
 {

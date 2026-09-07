@@ -6,9 +6,9 @@
 	<link rel="stylesheet" href="choix.css">
 	<script src="choix.js"></script>
 </head>
-<body>
+<body class="gd">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
-	<div id="choix">
+	<div id="choix" class="g">
 		<input type="text" name="filtre" id="filtre" autofocus="autofocus" value="<?php if(isset($_GET['q'])) echo strtr($_GET['q'], '|', ' '); ?>"></input>
 		<ul>
 			<?php
@@ -22,7 +22,7 @@
 			?>
 		</ul>
 	</div>
-	<div id="chant">
+	<div id="chant" class="d">
 	</div>
 	</form>
 	<div id="dialogues" style="display: none;">

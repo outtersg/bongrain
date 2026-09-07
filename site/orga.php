@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="choix.css">
 	<script src="choix.js"></script>
 </head>
-<body id="orga">
-	<div id="choix">
+<body id="orga" class="gd">
+	<div id="choix" class="g">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
 		<input type="hidden" value="<?php echo htmlentities($_GET['q']); ?>" id="filtre" name="filtre"/>
 		<table id="liste">
@@ -57,7 +57,7 @@
 		</table>
 	</form>
 	</div>
-	<div id="chant">
+	<div id="chant" class="d">
 	</div>
 </body>
 <script type="text/javascript">
