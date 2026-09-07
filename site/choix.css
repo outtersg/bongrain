@@ -2,6 +2,7 @@
 
 /* Modèles:
  * - .gd: gauche - droit, 2 volets, un .g et un .d
+ * - .gdd: gauche - droite - droite, avec le .d ayant un .dh et un .db (haut et bas).
  */
 /* À FAIRE: en grid layout ça passerait pas mal. */
 
@@ -45,6 +46,13 @@ body#orga
 .d
 {
 	width: calc(0.1% * (990 - var(--largeur-choix)));
+}
+
+.dh, .db
+{
+	height: 50%;
+	overflow: auto;
+	/* À FAIRE: redimensionnable? */
 }
 
 
