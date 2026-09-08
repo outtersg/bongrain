@@ -61,6 +61,13 @@
 		<div id="chant" class="dh">
 		</div>
 		<div id="tdm" class="db">
+			<h3>Table des matières</h3>
+			<table>
+			<?php
+				foreach($modèle as $moment)
+					echo '<tr><td><input type="text" value="'.htmlspecialchars($moment).'"/></td><td><input type="text"/></td></tr>'."\n";
+			?>
+			</table>
 		</div>
 	</div>
 </body>

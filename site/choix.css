@@ -155,7 +155,7 @@ th.moment > div > span
 	padding: 0.3em 0;
 }
 
-td > input
+#choix td > input
 {
 	display: none;
 }
@@ -165,7 +165,7 @@ td.possible
 	background: #9f9fff;
 }
 
-td.possible > input
+#choix td.possible > input
 {
 	display: initial;
 }
