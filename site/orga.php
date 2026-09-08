@@ -17,6 +17,15 @@
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
 		<input type="hidden" value="<?php echo htmlentities($_GET['q']); ?>" id="filtre" name="filtre"/>
 		<table id="liste">
+			<colgroup>
+				<col/>
+				<col/>
+				<?php
+					const AFFECTATIONS_N = 2;
+					foreach($modèle as $pos => $moment)
+						echo '<col class="moment'.($pos % AFFECTATIONS_N).'" data-moment="'.$pos.'"/>'."\n";
+				?>
+			</colgroup>
 			<tr>
 				<th>Chant</th>
 				<th>Note</th>
@@ -64,10 +73,10 @@
 			<h3>Table des matières</h3>
 			<table>
 			<?php
-				foreach($modèle as $moment)
+				foreach($modèle as $pos => $moment)
 				{
 					?>
-						<tr>
+						<tr class="moment<?php echo $pos % AFFECTATIONS_N; ?>" data-moment="<?php echo $pos; ?>">
 							<td><input type="text" value="<?php echo htmlspecialchars($moment); ?>"/></td>
 							<td><input type="text"/></td>
 						</tr>

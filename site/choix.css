@@ -163,9 +163,19 @@ th.moment > div > span
 td.possible
 {
 	background: #9f9fff;
+	/* À FAIRE: sous un .momentx, avoir une version plus contrastée de la couleur du .momentx. */
 }
 
 #choix td.possible > input
 {
 	display: initial;
+}
+
+.moment0, .moment0 td input
+{
+	background-color: #dfffdf;
+}
+.moment1, .moment1 td input
+{
+	background-color: #ffffdf;
 }
