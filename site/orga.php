@@ -65,7 +65,14 @@
 			<table>
 			<?php
 				foreach($modèle as $moment)
-					echo '<tr><td><input type="text" value="'.htmlspecialchars($moment).'"/></td><td><input type="text"/></td></tr>'."\n";
+				{
+					?>
+						<tr>
+							<td><input type="text" value="<?php echo htmlspecialchars($moment); ?>"/></td>
+							<td><input type="text"/></td>
+						</tr>
+					<?php
+				}
 			?>
 			</table>
 		</div>
