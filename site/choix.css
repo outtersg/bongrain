@@ -170,7 +170,7 @@ td.possible
 	display: initial;
 }
 
-td.possible:nth-child(2n+0)
+td.possible:nth-child(2n+1), .moment0 .titre
 {
 	background-color: #7fff7f;
 }
@@ -178,7 +178,7 @@ td.possible:nth-child(2n+0)
 {
 	background-color: #dfffdf;
 }
-td.possible:nth-child(2n+1)
+td.possible:nth-child(2n+2), .moment1 .titre
 {
 	background-color: #ffff7f;
 }
