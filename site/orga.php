@@ -54,11 +54,11 @@
 							'<tr data-code="'.$chant->code.'">
 								<th><a href="'.$chant->chemin.'" data-code="'.$chant->code.'">'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</a></th>
 								<td>'.$note.'</td>'."\n";
-							foreach($modèle as $moment)
+							foreach($modèle as $pos => $moment)
 							{
 								$courtMoment = Chant::ÉtiquettePour($moment);
 								$classe = isset($chant->étiquettes[$courtMoment]) ? ' class="possible"' : '';
-								echo '<td'.$classe.'><input type="radio"/></td>'."\n";
+								echo '<td'.$classe.'><input type="radio" name="m'.$pos.'"/></td>'."\n";
 							}
 							echo '</tr>'."\n";
 						}
@@ -77,8 +77,8 @@
 				{
 					?>
 						<tr class="moment<?php echo $pos % AFFECTATIONS_N; ?>" data-moment="<?php echo $pos; ?>">
-							<td><input type="text" value="<?php echo htmlspecialchars($moment); ?>"/></td>
-							<td><input type="text"/></td>
+							<td><input type="text" value="<?php echo htmlspecialchars($moment); ?>" readonly="readonly"/></td>
+							<td><input type="text" size="64"/></td>
 						</tr>
 					<?php
 				}

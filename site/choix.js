@@ -372,5 +372,33 @@ var Orga =
 				Choix.montrer(cible);
 			}
 		});
+		document.querySelectorAll('.possible input[type="radio"]').forEach(function(bouton)
+		{
+			bouton.addEventListener('change', Orga.choixChant);
+		});
+	},
+	choixChant: function(ev)
+	{
+		let bouton = ev.target;
+		let maCase = bouton.closest('td');
+		let colChoix = maCase.closest('table').querySelector('colgroup > col:nth-child('+(maCase.cellIndex + 1)+')');
+		let ligneTdm = document.querySelector('#tdm tr[data-moment="'+colChoix.dataset.moment+'"]');
+		if(bouton.checked)
+		{
+			let titre = document.createElement('span');
+			titre.classList.add('titre');
+			let contenu = ligneTdm.querySelector('td:nth-child(2)');
+			titre.appendChild(document.createTextNode(maCase.closest('tr').querySelector('a').innerText));
+			if(contenu.affChoix)
+				contenu.replaceChild(titre, contenu.affChoix);
+			else
+			{
+				contenu.children[0].setAttribute('size', 6);
+				contenu.prepend(titre);
+			}
+			contenu.affChoix = titre;
+		}
+		/* À FAIRE?: le else, en transformant les boutons radio en cases à cocher: en ce cas le décochage repermet la saisie libre.s
+		 * Ou alors, fonctionnement nominal */
 	}
 };

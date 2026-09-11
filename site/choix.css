@@ -186,3 +186,18 @@ td.possible:nth-child(2n+2), .moment1 .titre
 {
 	background-color: #ffffdf;
 }
+
+/*- Table des matières -------------------------------------------------------*/
+
+#tdm input[readonly="readonly"]
+{
+	/* Les readonly sont ceux figés (non éditables car liés à un choix par bouton radio ou autre). */
+	font-weight: bold;
+}
+
+#tdm .titre
+{
+	border: 1px solid #1f1f1f;
+	border-radius: 1em;
+	padding: 0 1em;
+}
