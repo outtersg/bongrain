@@ -4,6 +4,7 @@
 	$modèle = $_GET['modele'];
 	$modèles = json_decode(file_get_contents(Chant::$Dossier.'/modeles.json'));
 	$modèle = $modèles->$modèle;
+	$paramsPréc = array_intersect_key($_GET, [ 'modele' => true, 'q' => true, 'n' => true ]);
 ?>
 <html lang="fr">
 <head>
@@ -11,6 +12,14 @@
 	<title>Organisation des chants</title>
 	<link rel="stylesheet" href="choix.css">
 	<script src="choix.js"></script>
+	<script type="text/javascript">
+		{
+			let hurleurs = <?php echo json_encode($paramsPréc); ?>;
+			let h;
+			for(h in hurleurs)
+				Chants.hurleurs[h] = hurleurs[h];
+		}
+	</script>
 </head>
 <body id="orga" class="gdd">
 	<div id="choix" class="g">
