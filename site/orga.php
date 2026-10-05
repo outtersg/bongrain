@@ -60,7 +60,7 @@
 						{
 							$chant = $chants[$clé]; /* À FAIRE?: un lieu-tenant si on ne le retrouve pas? */
 							echo
-							'<tr data-code="'.$chant->code.'">
+							'<tr data-code="'.$chant->code.'" data-cle="'.$clé.'">
 								<th><a href="'.$chant->chemin.'" data-code="'.$chant->code.'">'.($chant->titre ? htmlspecialchars($chant->titre) : basename($chant->chemin, '.txt')).'</a></th>
 								<td>'.$note.'</td>'."\n";
 							foreach($modèle as $pos => $moment)
@@ -86,8 +86,8 @@
 				{
 					?>
 						<tr class="moment<?php echo $pos % AFFECTATIONS_N; ?>" data-moment="<?php echo $pos; ?>">
-							<td><input type="text" value="<?php echo htmlspecialchars($moment); ?>" readonly="readonly"/></td>
-							<td><input type="text" size="64"/></td>
+							<td><input class="moment" type="text" value="<?php echo htmlspecialchars($moment); ?>" readonly="readonly"/></td>
+							<td><input class="libre" type="text" size="64"/></td>
 						</tr>
 					<?php
 				}

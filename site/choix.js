@@ -409,16 +409,31 @@ var Orga =
 		{
 			bouton.addEventListener('change', Orga.choixChant);
 		});
+		document.querySelectorAll('#tdm .libre').forEach(function(champ)
+		{
+			/* À FAIRE?: à chaque saisie plutôt qu'à chaque changement de valeur? */
+			champ.addEventListener('change', Orga.majChantMoment);
+		});
+		Orga.preparerHurlement();
+	},
+	preparerHurlement: function()
+	{
+		// On précrée les mentions pour tous les champs, dans l'ordre du DOM: ainsi lorsque l'on renseignera ces champs, même dans le désordre, ils conserveront toujours leur place DOM dans l'objet final.
+		Chants.hurleurs.choix = {};
+		document.querySelectorAll('#tdm input.moment').forEach(function(champ) { Chants.hurleurs.choix[champ.value] = ''; });
+		/* À FAIRE: si on permet d'insérer des lignes en mention libre (ex.: 2ème chant pour le même moment, hymne exceptionnel entre deux moments normalisés…), savoir les faire figurer dans ce tableau; rappeler cette fonction pour recalculer le tableau au moment de l'introduction de cette ligne libre. */
 	},
 	choixChant: function(ev)
 	{
 		let bouton = ev.target;
 		let maCase = bouton.closest('td');
+		let maLigne = maCase.closest('tr');
 		let colChoix = maCase.closest('table').querySelector('colgroup > col:nth-child('+(maCase.cellIndex + 1)+')');
 		let ligneTdm = document.querySelector('#tdm tr[data-moment="'+colChoix.dataset.moment+'"]');
 		if(bouton.checked)
 		{
 			let titre = document.createElement('span');
+			titre.dataset.cle = maLigne.dataset.cle;
 			titre.classList.add('titre');
 			let contenu = ligneTdm.querySelector('td:nth-child(2)');
 			titre.appendChild(document.createTextNode(maCase.closest('tr').querySelector('a').innerText));
@@ -433,5 +448,16 @@ var Orga =
 		}
 		/* À FAIRE?: le else, en transformant les boutons radio en cases à cocher: en ce cas le décochage repermet la saisie libre.s
 		 * Ou alors, fonctionnement nominal */
+		Orga.majChantMoment(ligneTdm);
+	},
+	majChantMoment: function(declencheur)
+	{
+		let ligne, moment, libre, chant;
+		if(declencheur.target) { libre = declencheur.target; ligne = libre.closest('[data-moment]'); }
+		else { ligne = declencheur; libre = ligne.querySelector('.libre'); }
+		chant = ligne.querySelector('.titre');
+		moment = ligne.querySelector('.moment');
+		Chants.hurleurs.choix[moment.value] = (chant ? chant.dataset.cle : '')+(libre.value ? '~'+libre.value : '');
+		Chants.hurler();
 	}
 };
