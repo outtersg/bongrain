@@ -372,7 +372,7 @@ var Orga =
 				Choix.montrer(cible);
 			}
 		});
-		document.querySelectorAll('.possible input[type="radio"]').forEach(function(bouton)
+		document.querySelectorAll('#choix input[type="radio"]').forEach(function(bouton)
 		{
 			bouton.addEventListener('change', Orga.choixChant);
 		});

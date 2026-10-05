@@ -165,7 +165,7 @@ td.possible
 	background: #9f9fff;
 }
 
-#choix td.possible > input
+#choix td.possible > input, #choix td:hover > input, #choix td > input:checked
 {
 	display: initial;
 }
