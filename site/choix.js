@@ -17,12 +17,11 @@ var Chants =
 				let i, individus = [];
 				for(i in param)
 					if(param[i].length)
-						individus.push(hurleur+'['+i+']='+encodeURIComponent(param[i]));
+						individus.push(hurleur+'['+i+']='+encodeURIComponent(param[i]).replaceAll('%2C', ','));
 				param = individus.join('&');
 			}
 			else
-				/* À FAIRE: remplacer les %2C par des virgules. on l'utilise beaucoup, et la lisibilité change du tout au tout (en plus de grappiller 3 octets).Y a-t-il des cas particuliers où la virgule doit être échappée? */
-				param = hurleur+'='+encodeURIComponent(param);
+				param = hurleur+'='+encodeURIComponent(param).replaceAll('%2C', ',');
 			if(param && param != '&')
 				params.push(param);
 		}
