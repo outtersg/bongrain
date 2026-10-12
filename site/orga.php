@@ -24,7 +24,7 @@
 <body id="orga" class="gdd">
 	<div id="choix" class="g">
 	<form method="post"><!-- POST pour que les case cochées ne s'ajoutent pas à l'URL -->
-		<input type="hidden" value="<?php echo htmlentities($_GET['q']); ?>" id="filtre" name="filtre"/>
+		<input type="hidden" value="<?php echo isset($_GET['q']) ? htmlentities($_GET['q']) : ''; ?>" id="filtre" name="filtre"/>
 		<table id="liste">
 			<colgroup>
 				<col/>
