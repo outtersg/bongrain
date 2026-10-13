@@ -5,6 +5,16 @@
 	$modèles = json_decode(file_get_contents(Chant::$Dossier.'/modeles.json'));
 	$modèle = $modèles->$modèle;
 	$paramsPréc = array_intersect_key($_GET, [ 'modele' => true, 'q' => true, 'n' => true ]);
+	
+	$choix = [];
+	$mentionsLibres = [];
+	if(isset($_GET['choix']))
+		foreach($_GET['choix'] as $moment => $clém) // $clém = CLÉ et Mention libre.
+		{
+			$clém = explode('~', $clém, 2);
+			if(isset($clém[0]) && strlen($clém[0])) $choix[$moment] = $clém[0];
+			if(isset($clém[1]) && strlen($clém[1])) $mentionsLibres[$moment] = $clém[1];
+		}
 ?>
 <html lang="fr">
 <head>
@@ -67,7 +77,8 @@
 							{
 								$courtMoment = Chant::ÉtiquettePour($moment);
 								$classe = isset($chant->étiquettes[$courtMoment]) ? ' class="possible"' : '';
-								echo '<td'.$classe.'><input type="radio" name="m'.$pos.'"/></td>'."\n";
+								$cochée = isset($choix[$moment]) && $choix[$moment] == $clé ? ' checked="checked"' : '';
+								echo '<td'.$classe.'><input type="radio" name="m'.$pos.'"'.$cochée.'/></td>'."\n";
 							}
 							echo '</tr>'."\n";
 						}
@@ -84,10 +95,11 @@
 			<?php
 				foreach($modèle as $pos => $moment)
 				{
+					$valLibre = isset($mentionsLibres[$moment]) ? ' value="'.htmlentities($mentionsLibres[$moment]).'"' : '';
 					?>
 						<tr class="moment<?php echo $pos % AFFECTATIONS_N; ?>" data-moment="<?php echo $pos; ?>">
 							<td><input class="moment" type="text" value="<?php echo htmlspecialchars($moment); ?>" readonly="readonly"/></td>
-							<td><input class="libre" type="text" size="64"/></td>
+							<td><input class="libre" type="text" size="64"<?php echo $valLibre; ?>/></td>
 						</tr>
 					<?php
 				}
@@ -109,5 +121,8 @@
 	});
 	Choix.brancherRedim();
 	Orga.brancher();
+	/* Choix à restaurer en chargement de page (arrivés par l'URL): */
+	document.querySelectorAll('#choix [checked="checked"]').forEach(function(bouton) { Orga.choixChant({ target: bouton }); });
+	document.querySelectorAll('#tdm .libre').forEach(function(champ) { if(champ.value) Orga.majChantMoment({ target: champ }); });
 </script>
 </html>
